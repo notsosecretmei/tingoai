@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tingo</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbfaf8;--ink:#171310;--brown:#6b4a33;--soft:#efe9e2;--line:#ddd3c8;--mute:#7d7168;
+--serif:"Instrument Serif","Songti SC","Noto Serif SC",Georgia,serif;--sans:"Hanken Grotesk","PingFang SC","Noto Sans SC",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14100d;--ink:#f4efe9;--brown:#c49a78;--soft:#241c17;--line:#3a2e26;--mute:#a09287}}
+:root[data-theme="dark"]{--bg:#14100d;--ink:#f4efe9;--brown:#c49a78;--soft:#241c17;--line:#3a2e26;--mute:#a09287}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans)}
+main{max-width:520px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:28px 24px}
+h1{font:400 56px/1 var(--serif);margin:0;letter-spacing:-.01em}
+h2{font:400 30px/1.15 var(--serif);margin:0}
+.sub{color:var(--mute);margin:10px 0 0}
+.hide{display:none!important}
+.group{margin-top:28px}
+.group p{margin:0 0 10px;font-weight:500;color:var(--mute);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:none;color:var(--ink);padding:9px 16px;border-radius:99px;font:inherit;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
+.spacer{flex:1}
+.call{background:var(--brown);color:#fff;border:0;border-radius:99px;padding:18px;font:600 17px var(--sans);cursor:pointer;width:100%}
+.note{color:var(--mute);font-size:13px;margin:12px 0 0;text-align:center}
+#call{height:100%;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:baseline}
+.status{color:var(--mute);font-size:14px}
+.log{flex:1;overflow-y:auto;margin:18px -4px;padding:0 4px;display:flex;flex-direction:column;gap:14px}
+.m{max-width:88%;padding:12px 16px;border-radius:18px}
+.m.me{align-self:flex-end;background:var(--soft)}
+.m.ai{align-self:flex-start;border:1px solid var(--line)}
+.m .zh{font:400 24px/1.35 var(--serif)}
+.m .py{color:var(--brown);font-size:14px}
+.m .en{color:var(--mute);font-size:14px;margin-top:4px}
+.m .fix{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:14px}
+.bar{display:flex;gap:10px;align-items:center}
+.orb{width:64px;height:64px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);cursor:pointer;flex:none;font:500 13px var(--sans)}
+.orb.live{background:var(--brown);animation:p 1.6s ease-in-out infinite}
+@keyframes p{50%{box-shadow:0 0 0 14px color-mix(in srgb,var(--brown) 18%,transparent)}}
+@media (prefers-reduced-motion:reduce){.orb.live{animation:none}}
+.bar input{flex:1;min-width:0;border:1px solid var(--line);background:none;color:var(--ink);border-radius:99px;padding:14px 18px;font:inherit}
+.end{background:none;border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:8px 16px;font:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<section id="home">
+  <h1>Tingo</h1>
+  <p class="sub">Learn Chinese by phone call with a tutor who will not go easy on you.</p>
+  <div class="group"><p>Your level</p><div class="chips" id="lv"></div></div>
+  <div class="group"><p>Call topic</p><div class="chips" id="tp"></div></div>
+  <div class="spacer"></div>
+  <button class="call" id="start">Call Lao Li</button>
+  <p class="note" id="warn"></p>
+</section>
+
+<section id="call" class="hide">
+  <div class="top"><h2>Lao Li</h2><button class="end" id="end">Hang up</button></div>
+  <div class="status" id="st">Connecting</div>
+  <div class="log" id="log" aria-live="polite"></div>
+  <div class="bar">
+    <button class="orb" id="orb">Mute</button>
+    <input id="txt" placeholder="Or type in Chinese" aria-label="Type a message">
+  </div>
+</section>
+</main>
+
+<script>
+const LEVELS=["Beginner","Elementary","Intermediate"], TOPICS=["Ordering food","Introductions","Shopping","Directions","Family","Free talk"];
+let level=0,topic=0,sample=null,hist=[],rec=null,muted=false,inCall=false,busy=false,speaking=false;
+const $=id=>document.getElementById(id);
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+function chips(el,arr,get,set){
+  el.innerHTML="";
+  arr.forEach((t,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=t;
+    b.setAttribute("aria-pressed",get()===i);b.onclick=()=>{set(i);chips(el,arr,get,set)};el.appendChild(b)});
+}
+chips($("lv"),LEVELS,()=>level,i=>level=i);
+chips($("tp"),TOPICS,()=>topic,i=>topic=i);
+if(!SR)$("warn").textContent="Voice input needs Chrome or Edge. You can still type.";
+
+const sys=()=>`You are Lao Li, a sharp-tongued, funny Mandarin tutor on a phone call with an English speaker. Level: ${LEVELS[level]}. Topic: ${TOPICS[topic]}.
+Personality: dry, teasing, never agrees just to be nice. When the learner makes a mistake, mock it playfully, then give the fix. Roast the effort, never the person. Praise only when truly earned, and grudgingly.
+Keep Chinese simple for the level, 1-2 short sentences, and always end with a question to keep them talking.
+Reply ONLY JSON: {"zh":"your Chinese line","pinyin":"pinyin of zh","en":"English translation","fix":"if learner erred: the correct sentence plus a teasing note in English, else empty string"}`;
+
+async function ask(userText){
+  hist.push({role:"user",content:userText});
+  const turns=hist.slice(-12);
+  const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:sys()+"\n\nConversation so far (learner lines are the user; start with a greeting if empty):\n"+turns.map(t=>(t.role==="user"?"Learner: ":"Lao Li: ")+t.content).join("\n")})});
+  if(!res.ok)throw new Error("server");
+  const r=await res.json();
+  hist.push({role:"assistant",content:r.zh});
+  return r;
+}
+function bubble(cls,o){
+  const d=document.createElement("div");d.className="m "+cls;
+  if(cls==="me"){d.innerHTML='<div class="zh"></div>';d.firstChild.textContent=o}
+  else{d.innerHTML='<div class="zh"></div><div class="py"></div><div class="en"></div>'+(o.fix?'<div class="fix"></div>':"");
+    d.children[0].textContent=o.zh;d.children[1].textContent=o.pinyin;d.children[2].textContent=o.en;if(o.fix)d.children[3].textContent=o.fix}
+  $("log").appendChild(d);$("log").scrollTop=1e9;
+}
+function say(text){return new Promise(res=>{
+  if(!window.speechSynthesis){res();return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="zh-CN";u.rate=.9;
+  u.onend=u.onerror=()=>{speaking=false;res()};speaking=true;speechSynthesis.speak(u)})}
+function status(s){$("st").textContent=s}
+
+async function turn(text){
+  if(busy||!inCall)return;busy=true;stopRec();
+  if(text)bubble("me",text);
+  status("Lao Li is thinking");
+  try{
+    const r=await ask(text||"(The call just connected. Greet the learner.)");
+    bubble("ai",r);status("Lao Li is speaking");await say(r.zh);
+  }catch(e){status("Line dropped. Check the server and try again.")}
+  busy=false;listen();
+}
+function listen(){
+  if(!inCall||muted||!SR||busy){if(inCall)status(muted?"Muted":"Type your reply");return}
+  rec=new SR();rec.lang="zh-CN";rec.interimResults=false;
+  rec.onresult=e=>{const t=e.results[0][0].transcript.trim();rec=null;if(t)turn(t)};
+  rec.onerror=()=>{};rec.onend=()=>{if(rec&&inCall&&!muted&&!busy){rec=null;listen()}};
+  try{rec.start();$("orb").className="orb live";status("Listening")}catch(e){}
+}
+function stopRec(){if(rec){const r=rec;rec=null;try{r.abort()}catch(e){}}$("orb").className="orb"}
+
+$("start").onclick=async()=>{
+  hist=[];$("log").innerHTML="";muted=false;$("orb").textContent="Mute";
+  $("home").classList.add("hide");$("call").classList.remove("hide");inCall=true;turn("");
+};
+$("end").onclick=()=>{inCall=false;busy=false;stopRec();speechSynthesis.cancel();
+  $("call").classList.add("hide");$("home").classList.remove("hide")};
+$("orb").onclick=()=>{muted=!muted;$("orb").textContent=muted?"Unmute":"Mute";if(muted){stopRec();status("Muted")}else listen()};
+$("txt").onkeydown=e=>{if(e.key==="Enter"&&e.target.value.trim()){const v=e.target.value.trim();e.target.value="";speechSynthesis.cancel();busy=false;turn(v)}};
+</script>
+</body>
+</html>
