@@ -1223,7 +1223,7 @@ async function loadProgress() {
           <div class="session-details">${new Date(s.started_at).toLocaleDateString()} · ${mins} min${mins === 1 ? '' : 's'} · ${s.turns_count || 0} turns</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <div class="session-score">Score: ${s.score || 8}/10</div>
+          <div class="session-score">Score: ${s.score != null ? s.score : "-"}/10</div>
           <button class="btn-sm" style="border:1px solid var(--line);background:var(--soft);">View Transcript 💬</button>
         </div>
       `;
@@ -1245,7 +1245,7 @@ function openSessionReplay(session) {
   if (title) title.textContent = `${session.language || 'Conversation'} · ${session.topic || 'General'}`;
   if (sub) {
     const mins = Math.ceil((session.duration_seconds || 0) / 60);
-    sub.textContent = `${new Date(session.started_at).toLocaleString()} · ${mins} mins · Score: ${session.score || 8}/10`;
+    sub.textContent = `${new Date(session.started_at).toLocaleString()} · ${mins} mins · Score: ${session.score != null ? session.score : "-"}/10`;
   }
   if (log) {
     log.innerHTML = "";
@@ -1691,11 +1691,48 @@ async function endCall() {
   $("call-view").classList.add("hide");
 
   const lang = currentLang();
-  const turns = state.hist.length;
-  const score = turns < 4 ? 7 : Math.min(10, Math.max(6, 9 - state.sessionMistakes.length));
-  const feedback = state.sessionMistakes.length === 0
-    ? `Impressive flow in ${lang.name}! Keep practicing.`
-    : `Caught ${state.sessionMistakes.length} slip-up${state.sessionMistakes.length === 1 ? '' : 's'}. Review them in your Mistake Bank!`;
+  const totalTurns = state.hist.length;
+  const userTurns = state.hist.filter(m => m.role === "user").length;
+  const mistakes = state.sessionMistakes.length;
+  const dur = state.callSeconds;
+
+  // --- REAL scoring based on actual performance ---
+  let score = 0;
+  let feedback = "";
+
+  if (userTurns === 0) {
+    // User never said anything
+    score = 0;
+    feedback = "You didn\u2019t say anything! Try starting a conversation next time.";
+  } else if (userTurns === 1 && dur < 15) {
+    // Barely spoke
+    score = 1;
+    feedback = "That was barely a word. Stay in the call longer and practice!";
+  } else {
+    // Real scoring formula:
+    //   Base: starts at 5
+    //   +1 for each 2 user turns spoken (up to +3)
+    //   +1 if duration > 60s
+    //   +1 if duration > 180s
+    //   -1 for each mistake (min floor 1)
+    let base = 5;
+    base += Math.min(3, Math.floor(userTurns / 2));   // engagement bonus (max +3)
+    if (dur > 60) base += 1;                           // stayed over 1 min
+    if (dur > 180) base += 1;                          // stayed over 3 min
+    base -= mistakes;                                  // penalize mistakes
+    score = Math.max(1, Math.min(10, base));
+
+    // Real, honest feedback based on actual performance
+    if (mistakes === 0 && userTurns >= 4) {
+      feedback = "Clean session with " + userTurns + " exchanges \u2014 no mistakes caught. Solid work.";
+    } else if (mistakes === 0 && userTurns < 4) {
+      feedback = "No mistakes, but only " + userTurns + " exchange" + (userTurns === 1 ? "" : "s") + ". Try speaking more next time.";
+    } else if (mistakes === 1) {
+      feedback = userTurns + " exchanges, 1 correction logged. Review it in your Mistake Bank.";
+    } else {
+      feedback = userTurns + " exchanges, " + mistakes + " corrections logged. Review them in your Mistake Bank.";
+    }
+  }
 
   await authFetch("/api/session/end", {
     method: "POST",
@@ -1704,19 +1741,26 @@ async function endCall() {
       id: state.sessionId,
       score: score,
       feedback: feedback,
-      durationSeconds: state.callSeconds
+      durationSeconds: dur
     })
   });
 
-  $("summary-score").textContent = `${score}/10`;
-  $("summary-verdict").textContent = `"${feedback}" — ${lang.tutor}`;
-  $("summary-duration").textContent = `${Math.ceil(state.callSeconds / 60)}m`;
-  $("summary-turns").textContent = turns;
-  $("summary-mistakes-count").textContent = state.sessionMistakes.length;
+  $("summary-score").textContent = score + "/10";
+  $("summary-verdict").textContent = '"' + feedback + '" \u2014 ' + lang.tutor;
+
+  // Show real duration (seconds if under 1 min)
+  if (dur < 60) {
+    $("summary-duration").textContent = dur + "s";
+  } else {
+    $("summary-duration").textContent = Math.floor(dur / 60) + "m " + (dur % 60) + "s";
+  }
+  $("summary-turns").textContent = userTurns;
+  $("summary-mistakes-count").textContent = mistakes;
   $("modal-summary").classList.remove("hide");
 
   fetchProfile();
 }
+
 
 function escapeHtml(str) {
   if (!str) return "";

@@ -364,7 +364,7 @@ const dbService = {
           score = ?,
           feedback = ?
       WHERE id = ?
-    `).run(dur, score || 8, feedback || '', sessionId);
+    `).run(dur, score != null ? score : 0, feedback || '', sessionId);
 
     const session = db.prepare('SELECT user_id FROM sessions WHERE id = ?').get(sessionId) || {};
     const effectiveUserId = session.user_id || userId || 1;
