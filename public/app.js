@@ -1804,10 +1804,41 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") sendInput();
   };
 
-  // Modal actions
-  $("btn-close-summary").onclick = () => {
-    $("modal-summary").classList.add("hide");
-  };
+    // Modal actions
+  const hideSummary = () => $("modal-summary").classList.add("hide");
+
+  $("btn-close-summary").onclick = hideSummary;
+
+  const btnSummaryX = $("btn-summary-close-x");
+  if (btnSummaryX) btnSummaryX.onclick = hideSummary;
+
+  const btnAuthX = $("btn-auth-x");
+  if (btnAuthX) btnAuthX.onclick = closeAuthModal;
+
+  // Backdrop overlay click to close
+  const modalSummary = $("modal-summary");
+  if (modalSummary) {
+    modalSummary.addEventListener("click", e => {
+      if (e.target === modalSummary) hideSummary();
+    });
+  }
+
+  const modalAuth = $("modal-auth");
+  if (modalAuth) {
+    modalAuth.addEventListener("click", e => {
+      if (e.target === modalAuth) closeAuthModal();
+    });
+  }
+
+  // Escape key closes modals
+  window.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (modalSummary && !modalSummary.classList.contains("hide")) hideSummary();
+      if (modalAuth && !modalAuth.classList.contains("hide")) closeAuthModal();
+      const replayModal = $("modal-session-replay");
+      if (replayModal && !replayModal.classList.contains("hide")) closeSessionReplay();
+    }
+  });
   $("btn-summary-mistakes").onclick = () => {
     $("modal-summary").classList.add("hide");
     setTab("mistakes");

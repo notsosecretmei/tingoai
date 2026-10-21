@@ -1240,6 +1240,7 @@ main {
 }
 
 .modal-card {
+  position: relative;
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -1405,6 +1406,7 @@ main {
 }
 
 .auth-card {
+  position: relative;
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -1571,4 +1573,33 @@ main {
 .btn-signup-nav:hover {
   opacity: 0.92;
   transform: translateY(-1px);
+}
+
+
+/* Modal Top-Right Close Button */
+.btn-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--mute);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.btn-modal-close:hover {
+  color: var(--ink);
+  background: var(--soft);
+  border-color: var(--mute);
+  transform: scale(1.08);
 }
