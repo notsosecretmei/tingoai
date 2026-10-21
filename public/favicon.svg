@@ -1,6 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-  <rect x="6" y="14" width="6" height="20" rx="3" fill="#3b82f6"/>
-  <rect x="16" y="8" width="6" height="32" rx="3" fill="#f59e0b"/>
-  <rect x="26" y="12" width="6" height="24" rx="3" fill="#ec4899"/>
-  <circle cx="39" cy="24" r="3.5" fill="#06b6d4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#2A1B13"/>
+  <!-- serif T: thin top bar with small end serifs -->
+  <rect x="13" y="11" width="38" height="3.2" rx="1.2" fill="#F5EBDD"/>
+  <rect x="13" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
+  <rect x="48.4" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
+  <!-- thin neck -->
+  <rect x="30.4" y="14" width="3.2" height="15.5" fill="#F5EBDD"/>
+  <!-- microphone (lower part of the T), outlined -->
+  <rect x="25.5" y="29" width="13" height="23" rx="6.5" fill="none" stroke="#F5EBDD" stroke-width="2.4"/>
+  <path d="M29 38h6M29 42h6M29 46h6" stroke="#F5EBDD" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- sound waves, left -->
+  <path d="M20.5 36 Q16 42 20.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M14.5 32 Q7 42 14.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- sound waves, right -->
+  <path d="M43.5 36 Q48 42 43.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M49.5 32 Q57 42 49.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
 </svg>
