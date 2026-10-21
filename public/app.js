@@ -1,5 +1,5 @@
 // Tingo AI - Client Application Logic
-// Inspired by Pingo AI: Complete multilingual learning platform
+// Complete conversational multilingual learning platform
 
 const LEVELS = ["Beginner", "Elementary", "Intermediate", "Advanced"];
 
@@ -773,7 +773,7 @@ async function selectLanguage(langId) {
   showToast(`Switched to ${lang.name}! Ready to speak with ${lang.tutor}.`);
 }
 
-// Render Scenario Cards Dynamically (Pingo Image 2 style)
+// Render Scenario Cards Dynamically
 function renderScenariosGrid() {
   const container = $("scenarios-grid");
   if (!container) return;

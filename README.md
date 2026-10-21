@@ -1,8 +1,8 @@
 # Tingo AI 🎙️
-> Inspired by Pingo AI — Learn Mandarin Chinese by speaking with Lao Li, your witty AI tutor.
+> Conversational AI voice language tutor — master speaking through real dialogues and smart real-time feedback.
 
-## Features (Inspired by Pingo AI)
-- **Real-Time Phone Call with Lao Li**: Audio call experience with live speech recognition, natural voice synthesis (TTS), text input fallback, and an animated orb.
+## Features
+- **Real-Time Voice Calls**: Dynamic audio call experience with live speech recognition, natural voice synthesis (TTS), text input fallback, and an animated audio orb.
 - **Persistent SQLite Database (`tingo.db`)**: Powered by Node 24 native `node:sqlite` (zero npm dependencies):
   - **Profile & Daily Streak**: Tracks consecutive days practiced and total speaking minutes.
   - **Mistake Bank ("Pick up where you left off")**: Automatically logs every error Lao Li spots during conversations with his witty roast, the correction, pinyin, and a "Mark as Mastered" review workflow.
