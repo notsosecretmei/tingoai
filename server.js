@@ -54,14 +54,17 @@ function extractJson(raw) {
   }
 }
 
-// Groq chat completion with model fallback and automatic JSON validation recovery
 async function callGroqWithModel(model, systemPrompt, conversationMessages) {
+  const conversation = conversationMessages && conversationMessages.length > 0
+    ? conversationMessages
+    : [{ role: "user", content: "[Caller connects phone call. Pick up the phone, greet them, and start the conversation!]" }];
+
   const messages = [
     {
       role: "system",
       content: systemPrompt + "\nAlways reply strictly in valid JSON format matching: {\"zh\": \"...\", \"pinyin\": \"...\", \"en\": \"...\", \"fix\": \"...\"}."
     },
-    ...conversationMessages
+    ...conversation
   ];
 
   const controller = new AbortController();
@@ -71,7 +74,7 @@ async function callGroqWithModel(model, systemPrompt, conversationMessages) {
     const payload = {
       model: model,
       max_tokens: 2048,
-      temperature: 0.7,
+      temperature: 0.85,
       messages: messages
     };
     if (useJsonFormat) {
@@ -112,12 +115,24 @@ async function callGroqWithModel(model, systemPrompt, conversationMessages) {
     const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
     const parsed = extractJson(content);
 
-    // Sanitize required fields
+    // Sanitize required fields with flexible keys
+    const zh = parsed.zh || parsed.text || parsed.japanese || parsed.target || "";
+    const pinyin = parsed.pinyin || parsed.romaji || parsed.phonetic || "";
+    const en = parsed.en || parsed.english || parsed.translation || "";
+    const fix = parsed.fix || parsed.roast || parsed.correction || "";
+
+    const defaultZh = systemPrompt.includes("Japanese")
+      ? "何ボーッとしてるの？もう一回言って！"
+      : "别愣着，再说一遍！";
+    const defaultEn = systemPrompt.includes("Japanese")
+      ? "What are you spacing out for? Say it again!"
+      : "Don't just stand there, say it again!";
+
     return {
-      zh: parsed.zh || "我们继续练习吧。",
-      pinyin: parsed.pinyin || "Wǒmen jìxù liànxí ba.",
-      en: parsed.en || "Let's continue practicing.",
-      fix: parsed.fix || ""
+      zh: zh || defaultZh,
+      pinyin: pinyin,
+      en: en || defaultEn,
+      fix: fix
     };
   } finally {
     clearTimeout(timeout);
@@ -177,6 +192,14 @@ const MIME_TYPES = {
   ".ico": "image/x-icon"
 };
 
+// Authentication helper
+function getAuthUser(req) {
+  const authHeader = req.headers.authorization || req.headers['x-auth-token'] || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+  if (!token) return null;
+  return db.getUserByToken(token);
+}
+
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost:3000'}`);
   const pathname = reqUrl.pathname;
@@ -186,7 +209,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
       "access-control-allow-origin": "*",
-      "access-control-allow-headers": "Content-Type",
+      "access-control-allow-headers": "Content-Type, Authorization, x-auth-token",
       "access-control-allow-methods": "GET, POST, OPTIONS"
     });
     res.end();
@@ -195,14 +218,53 @@ const server = http.createServer(async (req, res) => {
 
   // --- API Endpoints ---
   try {
+    const authUser = getAuthUser(req);
+    const userId = authUser ? authUser.id : 1;
+
+    // 0. Auth Endpoints
+    if (pathname === "/api/auth/register" && req.method === "POST") {
+      const body = await parseBody(req);
+      try {
+        const result = db.register(body.username, body.password, body.name);
+        return sendJson(res, 201, result);
+      } catch (err) {
+        return sendJson(res, 400, { error: err.message });
+      }
+    }
+
+    if (pathname === "/api/auth/login" && req.method === "POST") {
+      const body = await parseBody(req);
+      try {
+        const result = db.login(body.username, body.password);
+        return sendJson(res, 200, result);
+      } catch (err) {
+        return sendJson(res, 400, { error: err.message });
+      }
+    }
+
+    if (pathname === "/api/auth/me" && req.method === "GET") {
+      if (!authUser) {
+        return sendJson(res, 200, { authenticated: false });
+      }
+      const profile = db.getProfile(authUser.id);
+      return sendJson(res, 200, { authenticated: true, user: profile });
+    }
+
+    if (pathname === "/api/auth/logout" && req.method === "POST") {
+      const authHeader = req.headers.authorization || req.headers['x-auth-token'] || '';
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      db.logout(token);
+      return sendJson(res, 200, { success: true });
+    }
+
     // 1. Profile & Stats
     if (pathname === "/api/profile") {
       if (req.method === "GET") {
-        const profile = db.getProfile();
+        const profile = db.getProfile(userId);
         return sendJson(res, 200, profile);
       } else if (req.method === "POST") {
         const body = await parseBody(req);
-        const updated = db.updateProfile(body);
+        const updated = db.updateProfile(userId, body);
         return sendJson(res, 200, updated);
       }
     }
@@ -212,11 +274,11 @@ const server = http.createServer(async (req, res) => {
       if (req.method === "GET") {
         const topic = searchParams.get("topic");
         const lang = searchParams.get("lang");
-        const vocab = db.getVocabulary(topic, lang);
+        const vocab = db.getVocabulary(userId, topic, lang);
         return sendJson(res, 200, vocab);
       } else if (req.method === "POST") {
         const body = await parseBody(req);
-        const item = db.addVocabulary(body);
+        const item = db.addVocabulary(userId, body);
         return sendJson(res, 201, item);
       }
     }
@@ -232,7 +294,7 @@ const server = http.createServer(async (req, res) => {
       if (req.method === "GET") {
         const filter = searchParams.get("filter");
         const lang = searchParams.get("lang");
-        const mistakes = db.getMistakes(filter, lang);
+        const mistakes = db.getMistakes(userId, filter, lang);
         return sendJson(res, 200, mistakes);
       }
     }
@@ -246,7 +308,7 @@ const server = http.createServer(async (req, res) => {
     // 4. Session Management
     if (pathname === "/api/session/start" && req.method === "POST") {
       const body = await parseBody(req);
-      const session = db.startSession(body.id || 'ses_' + Date.now(), body.topic, body.level, body.language);
+      const session = db.startSession(userId, body.id || 'ses_' + Date.now(), body.topic, body.level, body.language);
       return sendJson(res, 200, session);
     }
 
@@ -256,24 +318,24 @@ const server = http.createServer(async (req, res) => {
         score: body.score,
         feedback: body.feedback,
         durationSeconds: body.durationSeconds
-      });
+      }, userId);
       return sendJson(res, 200, session);
     }
 
     if (pathname === "/api/sessions" && req.method === "GET") {
-      const sessions = db.getRecentSessions(10);
+      const sessions = db.getRecentSessions(userId, 10);
       return sendJson(res, 200, sessions);
     }
 
     if (pathname === "/api/last-session" && req.method === "GET") {
-      const summary = db.getLastSessionSummary();
+      const summary = db.getLastSessionSummary ? db.getLastSessionSummary(userId) : {};
       return sendJson(res, 200, summary || {});
     }
 
-    // 5. Chat Turn with Lao Li
+    // 5. Chat Turn with AI Tutor
     if (pathname === "/api/chat" && req.method === "POST") {
       const body = await parseBody(req);
-      const { system, messages, sessionId, userText } = body;
+      const { system, messages, sessionId, userText, language } = body;
 
       // Save user message to database if present
       if (sessionId && userText) {
@@ -282,8 +344,9 @@ const server = http.createServer(async (req, res) => {
           zh: userText,
           pinyin: "",
           en: "",
-          fix: ""
-        });
+          fix: "",
+          language
+        }, userId);
       }
 
       // Format conversation turns for LLM
@@ -304,8 +367,9 @@ const server = http.createServer(async (req, res) => {
           zh: tutorResponse.zh,
           pinyin: tutorResponse.pinyin,
           en: tutorResponse.en,
-          fix: tutorResponse.fix
-        });
+          fix: tutorResponse.fix,
+          language
+        }, userId);
       }
 
       return sendJson(res, 200, tutorResponse);
@@ -353,7 +417,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`===============================================`);
-  console.log(`   Tingo AI Tutor is running!`);
+  console.log(`   Tinguin AI Tutor is running!`);
   console.log(`   URL: http://localhost:${PORT}`);
   console.log(`   Primary Model: ${PRIMARY_MODEL}`);
   console.log(`   Fallback Model: ${FALLBACK_MODEL}`);

@@ -1,7 +1,7 @@
 {
-  "name": "tingo-ai",
-  "version": "1.1.0",
-  "description": "Tingo - Learn Chinese by speaking with Lao Li",
+  "name": "tinguin-ai",
+  "version": "1.2.0",
+  "description": "Tinguin — Speak Fearlessly. Roast Your Way to Fluency.",
   "private": true,
   "main": "server.js",
   "scripts": {

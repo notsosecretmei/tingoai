@@ -1,22 +1,24 @@
-# Tingo AI 🎙️
-> Conversational AI voice language tutor — master speaking through real dialogues and smart real-time feedback.
+# Tinguin AI 🎙️
+> Speak Fearlessly. Roast Your Way to Fluency.
+
+Tinguin is a multilingual voice-call language learning platform with savage, witty native AI tutors who laugh at your mistakes, roast bad grammar, and push you into real conversational fluency through tough love.
 
 ## Features
-- **Real-Time Voice Calls**: Dynamic audio call experience with live speech recognition, natural voice synthesis (TTS), text input fallback, and an animated audio orb.
-- **Persistent SQLite Database (`tingo.db`)**: Powered by Node 24 native `node:sqlite` (zero npm dependencies):
+- **Real-Time Voice Phone Calls**: Immersive phone-call interface with real-time speech recognition (STT), natural native speech synthesis (TTS), text input fallback, and live orb indicator.
+- **Multilingual Support (7 Languages)**:
+  - 🇯🇵 **Japanese (Kenji 健二)**: Sarcastic Tokyoite who laughs at anime-cringe Japanese and stiff keigo blunders.
+  - 🇨🇳 **Chinese (Lao Li 老李)**: Savage Beijing uncle who roasts butchered tones and robotic phrasing.
+  - 🇪🇸 **Spanish (Mateo)**: Theatrical Madrid roastmaster who roasts flat English vowels.
+  - 🇫🇷 **French (Camille)**: Snarky Parisian tutor who winces at bad pronunciation until it's flawless.
+  - 🇩🇪 **German (Hans)**: Deadpan Berlin cynic who treats bad grammar as a criminal offense.
+  - 🇰🇷 **Korean (Min-jun)**: Sassy Seoul local who roasts textbook awkwardness.
+  - 🇺🇸 **English (Coach Sarah)**: Brutally sarcastic New Yorker eliminating robotic textbook lines.
+- **Persistent SQLite Database (`tingo.db`)**: Powered by Node native `node:sqlite`:
   - **Profile & Daily Streak**: Tracks consecutive days practiced and total speaking minutes.
-  - **Mistake Bank ("Pick up where you left off")**: Automatically logs every error Lao Li spots during conversations with his witty roast, the correction, pinyin, and a "Mark as Mastered" review workflow.
-  - **Phrasebook & Vocabulary**: Auto-saves target expressions taught in calls, complete with pinyin, English meaning, and normal/slow audio playback.
-  - **Session History**: Records every conversation score (out of 10), duration, turns count, and feedback.
-- **Interactive Scenario Cards**: Quick-jump into realistic Chinese conversational situations:
-  - Day one in Chinese (Introductions)
-  - Street food in Chengdu (Ordering Food)
-  - Bargaining at the Silk Market (Shopping)
-  - Taking a taxi in Beijing (Directions)
-  - Saying what you like (Daily banter)
-  - Casual chat & free talk
-- **Original Warm Editorial Theme**: Kept 100% faithful to Tingo's warm serif typography (`Instrument Serif`), clean sans body (`Hanken Grotesk`), paper tones (`#fbfaf8`), warm brown accents (`#6b4a33`), and dark mode support.
-- **Robust Model Fallback**: Primary model `openai/gpt-oss-120b` with automatic fallback to `qwen/qwen3.8-27b` via Groq.
+  - **Mistake Bank**: Automatically logs every slip-up roasted during conversations with audio, corrections, readings, and a "Mark as Mastered" review workflow.
+  - **Saved Phrasebook**: Core expressions taught during calls with normal and slow audio playback.
+  - **Session History & Progress**: Records conversation scores, duration, turns count, and tutor verdicts.
+- **Original T-Microphone Logo & Editorial Design**: Dark espresso squircle with serif T-microphone and acoustic waves, Instrument Serif typography, warm tones, and dark mode.
 
 ## Quick Start
 1. Ensure Node.js 18+ (Node 24 recommended) is installed.

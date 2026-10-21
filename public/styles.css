@@ -101,18 +101,24 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease;
-}
-
-.brand-logo svg {
-  display: block;
+  width: 32px;
+  height: 32px;
+  flex: none;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(42, 27, 19, 0.18);
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
 
 .brand:hover .brand-logo {
   transform: scale(1.06);
 }
+
+.brand-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 
 .brand-name {
   font: 600 24px/1 var(--sans);
@@ -212,29 +218,41 @@ main {
 }
 
 .hero-logo-wrap {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-  transition: transform 0.3s ease;
+  margin: 0 auto 20px auto;
+  width: fit-content;
+  filter: drop-shadow(0 10px 24px rgba(42, 27, 19, 0.16));
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+  clear: both;
 }
 
 .hero-logo-wrap:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.04);
+  filter: drop-shadow(0 14px 28px rgba(42, 27, 19, 0.22));
 }
 
 .hero-logo-svg {
+  width: 76px;
+  height: 76px;
   display: block;
   border-radius: 18px;
-  box-shadow: 0 8px 24px -4px rgba(42, 27, 19, 0.28);
+}
+
+  50% { transform: scaleY(1.3); }
 }
 
 .hero-greeting {
-  font: 400 24px/1 var(--serif);
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto 16px auto;
+  font: 400 24px/1.3 var(--serif);
   color: var(--brown);
-  margin-bottom: 14px;
-  display: inline-block;
   min-height: 32px;
+  clear: both;
   transition: opacity 0.3s ease;
 }
 
@@ -254,30 +272,20 @@ main {
 }
 
 .social-proof {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 13.5px;
+  gap: 8px;
+  font-size: 14px;
   color: var(--mute);
   margin-bottom: 32px;
-  background: var(--soft);
-  padding: 8px 20px;
-  border-radius: 99px;
-  border: 1px solid var(--line);
+}
+.stars {
+  color: #f59e0b;
+  letter-spacing: 2px;
 }
 
-.proof-badge {
-  font-weight: 600;
-  color: var(--brown);
-}
-
-.proof-dot {
-  color: var(--line);
-}
-
-/* Language Selector Pills */
+/* Language Selector Pills (Pingo style) */
 .lang-selector {
   display: flex;
   align-items: center;
@@ -429,7 +437,7 @@ main {
   text-align: center;
 }
 
-/* Scenarios Grid */
+/* Scenarios Grid (Pingo Image 2 style) */
 .section-title-wrap {
   text-align: center;
   margin-bottom: 32px;
@@ -554,7 +562,7 @@ main {
   color: var(--brown);
 }
 
-/* 3-Step Feature Showcase */
+/* 3-Step Feature Showcase (Pingo Image 3) */
 .steps-container {
   background: var(--soft);
   border-radius: 32px;
@@ -604,52 +612,49 @@ main {
 
 .step-desc {
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--mute);
 }
 
-/* Features Highlight Section (Original, Honest Platform Highlights) */
-.features-highlight-section {
+/* Testimonials (Pingo Image 1) */
+.testimonials-section {
   margin-bottom: 64px;
 }
 
-.features-grid {
+.testimonials-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
-.feature-card {
+.testimonial-card {
   background: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 22px;
-  padding: 28px 24px;
+  border-radius: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: space-between;
 }
 
-.feature-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
-.feature-icon {
-  font-size: 30px;
-  margin-bottom: 14px;
-  display: inline-block;
-}
-
-.feature-heading {
-  font: 600 18px/1.3 var(--sans);
+.testimonial-quote {
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink);
-  margin-bottom: 8px;
+  margin: 14px 0 20px;
+  font-style: italic;
 }
 
-.feature-desc {
-  font-size: 14px;
-  line-height: 1.55;
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
   color: var(--mute);
+}
+.author-name {
+  font-weight: 600;
+  color: var(--ink);
 }
 
 /* Database Panels: Mistake Bank, Phrasebook, Progress */
@@ -1348,6 +1353,180 @@ main {
   display: none !important;
 }
 
+/* Auth UI & User Area */
+.nav-user-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-open-auth {
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 7px 14px;
+  border-radius: 99px;
+  font: 600 13px var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-open-auth:hover {
+  background: var(--soft);
+  border-color: var(--mute);
+}
+
+.user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 12px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font: 500 13px var(--sans);
+  color: var(--ink);
+}
+
+.btn-logout {
+  background: none;
+  border: 0;
+  color: var(--mute);
+  font: 500 12px var(--sans);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 99px;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+.auth-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  max-width: 400px;
+  width: 100%;
+  padding: 32px 28px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.auth-header {
+  margin-bottom: 20px;
+}
+
+.auth-title {
+  font: 400 28px/1.2 var(--serif);
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.auth-sub {
+  font-size: 13px;
+  color: var(--mute);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--soft);
+  padding: 4px;
+  border-radius: 99px;
+  margin-bottom: 20px;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  border: 0;
+  background: none;
+  padding: 7px 12px;
+  border-radius: 99px;
+  font: 600 13px var(--sans);
+  color: var(--mute);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-tab-btn.active {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.auth-field input {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.auth-field input:focus {
+  border-color: var(--brown);
+  outline: 2px solid color-mix(in srgb, var(--brown) 20%, transparent);
+}
+
+.auth-error {
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 4px;
+  text-align: center;
+  min-height: 18px;
+}
+
+.btn-auth-submit {
+  margin-top: 6px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  border-radius: 99px;
+  font: 600 15px var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-auth-submit:hover {
+  background: var(--brown);
+}
+
+.btn-auth-close {
+  background: none;
+  border: 0;
+  color: var(--mute);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 12px;
+  text-decoration: underline;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .hero-title { font-size: 44px; }
@@ -1355,4 +1534,41 @@ main {
   .nav-links { display: none; }
   .launcher-card { padding: 24px 18px; }
   .steps-container { padding: 32px 20px; }
+}
+
+
+/* Top Navigation Auth Buttons */
+.nav-auth-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-login-nav {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 7px 15px;
+  border-radius: 99px;
+  font: 600 13px var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-login-nav:hover {
+  background: var(--soft);
+  border-color: var(--mute);
+}
+.btn-signup-nav {
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--bg);
+  padding: 7px 16px;
+  border-radius: 99px;
+  font: 600 13px var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.btn-signup-nav:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Tingo — Speak Without Hesitation | AI Voice Language Tutor</title>
+  <title>Tinguin — Speak Fearlessly. Roast Your Way to Fluency.</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,22 +16,22 @@
   <header class="nav-header">
     <div class="nav-container">
       <div class="brand" onclick="setTab('practice')">
-        <div class="brand-logo" title="Tingo">
+        <div class="brand-logo" title="Tinguin">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="32" height="32" fill="none" aria-hidden="true">
-            <rect width="64" height="64" rx="14" fill="#2A1B13"/>
-            <rect x="13" y="11" width="38" height="3.2" rx="1.2" fill="#F5EBDD"/>
-            <rect x="13" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
-            <rect x="48.4" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
-            <rect x="30.4" y="14" width="3.2" height="15.5" fill="#F5EBDD"/>
-            <rect x="25.5" y="29" width="13" height="23" rx="6.5" fill="none" stroke="#F5EBDD" stroke-width="2.4"/>
-            <path d="M29 38h6M29 42h6M29 46h6" stroke="#F5EBDD" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M20.5 36 Q16 42 20.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M14.5 32 Q7 42 14.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M43.5 36 Q48 42 43.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M49.5 32 Q57 42 49.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
+            <rect width="64" height="64" rx="16" fill="#241812"/>
+            <path d="M14 18.5 V 14.5 Q 14 13.5 15 13.5 H 49 Q 50 13.5 50 14.5 V 18.5" stroke="#F6EFE6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="32" y1="14" x2="32" y2="28" stroke="#F6EFE6" stroke-width="3" stroke-linecap="round"/>
+            <rect x="25" y="27" width="14" height="23" rx="7" stroke="#F6EFE6" stroke-width="2.5" fill="#241812"/>
+            <line x1="28.5" y1="34" x2="35.5" y2="34" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="28.5" y1="38.5" x2="35.5" y2="38.5" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="28.5" y1="43" x2="35.5" y2="43" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M19.5 32.5 A 8 8 0 0 0 19.5 44.5" stroke="#F6EFE6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13.5 28 A 14.5 14.5 0 0 0 13.5 49" stroke="#DCBA8E" stroke-width="2" stroke-linecap="round"/>
+            <path d="M44.5 32.5 A 8 8 0 0 1 44.5 44.5" stroke="#F6EFE6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M50.5 28 A 14.5 14.5 0 0 1 50.5 49" stroke="#DCBA8E" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <span class="brand-name">Tingo</span>
+        <span class="brand-name">Tinguin</span>
       </div>
 
       <nav class="nav-links">
@@ -45,6 +45,12 @@
       </nav>
 
       <div class="nav-actions">
+        <div id="nav-user-wrap" class="nav-user-wrap">
+          <div class="nav-auth-btns">
+            <button type="button" class="btn-login-nav" id="btn-login-nav" onclick="openAuthModal('login')">Log In</button>
+            <button type="button" class="btn-signup-nav" id="btn-signup-nav" onclick="openAuthModal('register')">Sign Up</button>
+          </div>
+        </div>
         <button class="btn-icon" id="btn-theme-toggle" title="Toggle Theme" aria-label="Toggle theme">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
@@ -67,35 +73,35 @@
     <!-- VIEW 1: Practice & Landing -->
     <section id="view-practice">
       <div class="hero">
-        <div class="hero-logo-wrap" title="Tingo AI">
-          <svg class="hero-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="68" height="68" fill="none" aria-label="Tingo Logo">
-            <rect width="64" height="64" rx="14" fill="#2A1B13"/>
-            <rect x="13" y="11" width="38" height="3.2" rx="1.2" fill="#F5EBDD"/>
-            <rect x="13" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
-            <rect x="48.4" y="11" width="2.6" height="8.5" rx="1.2" fill="#F5EBDD"/>
-            <rect x="30.4" y="14" width="3.2" height="15.5" fill="#F5EBDD"/>
-            <rect x="25.5" y="29" width="13" height="23" rx="6.5" fill="none" stroke="#F5EBDD" stroke-width="2.4"/>
-            <path d="M29 38h6M29 42h6M29 46h6" stroke="#F5EBDD" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M20.5 36 Q16 42 20.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M14.5 32 Q7 42 14.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M43.5 36 Q48 42 43.5 48" fill="none" stroke="#F5EBDD" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M49.5 32 Q57 42 49.5 52" fill="none" stroke="#D9B98C" stroke-width="1.8" stroke-linecap="round"/>
+        <div class="hero-logo-wrap" title="Tinguin AI">
+          <svg class="hero-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="76" height="76" fill="none" aria-label="Tinguin Logo">
+            <rect width="64" height="64" rx="16" fill="#241812"/>
+            <path d="M14 18.5 V 14.5 Q 14 13.5 15 13.5 H 49 Q 50 13.5 50 14.5 V 18.5" stroke="#F6EFE6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="32" y1="14" x2="32" y2="28" stroke="#F6EFE6" stroke-width="3" stroke-linecap="round"/>
+            <rect x="25" y="27" width="14" height="23" rx="7" stroke="#F6EFE6" stroke-width="2.5" fill="#241812"/>
+            <line x1="28.5" y1="34" x2="35.5" y2="34" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="28.5" y1="38.5" x2="35.5" y2="38.5" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="28.5" y1="43" x2="35.5" y2="43" stroke="#F6EFE6" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M19.5 32.5 A 8 8 0 0 0 19.5 44.5" stroke="#F6EFE6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13.5 28 A 14.5 14.5 0 0 0 13.5 49" stroke="#DCBA8E" stroke-width="2" stroke-linecap="round"/>
+            <path d="M44.5 32.5 A 8 8 0 0 1 44.5 44.5" stroke="#F6EFE6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M50.5 28 A 14.5 14.5 0 0 1 50.5 49" stroke="#DCBA8E" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
 
-        <div id="hero-greeting" class="hero-greeting">你好 (Nǐ hǎo) — Hello</div>
-        <h1 class="hero-title">Speak without hesitation.<br>Master real conversations.</h1>
-        <p class="hero-sub" id="hero-sub">Learn Chinese by phone call with Lao Li — a sharp-tongued, witty tutor who will not go easy on you.</p>
+        <div id="hero-greeting" class="hero-greeting">こんにちは (Konnichiwa) — Hello</div>
+        <h1 class="hero-title">Speak fearlessly.<br>Get roasted into fluency.</h1>
+        <p class="hero-sub" id="hero-sub">The savage AI language tutor that laughs at your mistakes, roasts your bad grammar, and makes you fluent through sheer tough love.</p>
 
         <div class="social-proof">
           <span class="proof-badge">Interactive AI Calls</span>
           <span class="proof-dot">·</span>
-          <span>Real-time Corrections</span>
+          <span>Savage Real-Time Corrections</span>
           <span class="proof-dot">·</span>
           <span>7 Languages Supported</span>
         </div>
 
-        <!-- Language Selector Bar (All 7 Languages) -->
+        <!-- Language Selector Bar (Quick Selection) -->
         <div class="lang-selector" id="lang-selector"></div>
       </div>
 
@@ -104,6 +110,11 @@
         <div class="launcher-header">
           <h2 class="launcher-title">Start a Call</h2>
           <span id="streak-days" class="streak-badge">1 day streak 🔥</span>
+        </div>
+
+        <div class="setup-group">
+          <span class="setup-label">Target Language</span>
+          <div class="chips" id="chips-lang"></div>
         </div>
 
         <div class="setup-group">
@@ -135,29 +146,29 @@
 
       <!-- 3-Step Feature Showcase -->
       <div class="steps-container">
-        <h2 class="steps-title">How Tingo builds your conversational confidence</h2>
+        <h2 class="steps-title">How Tinguin turns embarrassment into fluency</h2>
         <div class="steps-grid">
           <div class="step-card">
             <div class="step-num">01</div>
-            <h3 class="step-heading">Choose your scenario &amp; level</h3>
-            <p class="step-desc">Pick from 7 languages and real situations like ordering food, navigating taxis, or casual conversation with your tutor.</p>
+            <h3 class="step-heading">Pick your language &amp; scenario</h3>
+            <p class="step-desc">Choose Japanese, Chinese, Spanish, French, German, and more. Pick real-world situations like ramen shops, night markets, or casual banter.</p>
           </div>
 
           <div class="step-card">
             <div class="step-num">02</div>
-            <h3 class="step-heading">Practice speaking out loud</h3>
-            <p class="step-desc">Have dynamic voice calls with your AI tutor. Speak naturally, get instant romanization, and hear authentic pronunciations.</p>
+            <h3 class="step-heading">Talk live &amp; get roasted when you slip</h3>
+            <p class="step-desc">No boring multiple choice. Real voice conversations where your tutor laughs at mistakes, mocks awful grammar with savage wit, and teaches how locals actually talk.</p>
           </div>
 
           <div class="step-card">
             <div class="step-num">03</div>
-            <h3 class="step-heading">Turn mistakes into fluency</h3>
-            <p class="step-desc">Every correction and vocabulary tip is automatically tracked in your Mistake Bank and Phrasebook for rapid review.</p>
+            <h3 class="step-heading">Conquer mistakes in your Bank</h3>
+            <p class="step-desc">Tinguin saves every slip-up roasted by your tutor so you can review audio, master pronunciation, and never repeat the same blunder twice.</p>
           </div>
         </div>
       </div>
 
-      <!-- Features Highlight Section (Truthful, original platform values) -->
+      <!-- Features Highlight Section (Original, Honest Platform Highlights) -->
       <div class="features-highlight-section">
         <div class="section-title-wrap">
           <h2 class="section-title">Designed for real-world fluency</h2>
@@ -173,7 +184,7 @@
 
           <div class="feature-card">
             <div class="feature-icon">⚡</div>
-            <h3 class="feature-heading">Instant Smart Corrections</h3>
+            <h3 class="feature-heading">Instant Savage Corrections</h3>
             <p class="feature-desc">Your tutor catches grammar slips, unnatural phrasing, and tone errors on the fly, explaining the right way to say it in real time.</p>
           </div>
 
@@ -183,6 +194,7 @@
             <p class="feature-desc">Never repeat the same error twice. Every correction is automatically cataloged in your personal review bank so you actually retain what you learn.</p>
           </div>
         </div>
+      </div>
       </div>
     </section>
 
@@ -312,6 +324,39 @@
     </div>
   </div>
 
+  <!-- USER AUTH MODAL -->
+  <div id="modal-auth" class="modal-overlay hide">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-title" id="auth-title">Welcome back</div>
+        <div class="auth-sub" id="auth-sub">Log in to sync your progress, streak, and mistake bank</div>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tab-login" data-auth-mode="login">Log In</button>
+        <button type="button" class="auth-tab-btn" id="tab-register" data-auth-mode="register">Create Account</button>
+      </div>
+
+      <form id="auth-form" class="auth-form" autocomplete="on">
+        <div class="auth-field" id="field-auth-name" style="display: none;">
+          <label for="auth-input-name">Your Name</label>
+          <input type="text" id="auth-input-name" placeholder="e.g. Alex" autocomplete="name">
+        </div>
+        <div class="auth-field">
+          <label for="auth-input-user">Username</label>
+          <input type="text" id="auth-input-user" placeholder="Enter username" required autocomplete="username">
+        </div>
+        <div class="auth-field">
+          <label for="auth-input-pass">Password</label>
+          <input type="password" id="auth-input-pass" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+        <div class="auth-error" id="auth-error"></div>
+        <button type="submit" class="btn-auth-submit" id="btn-auth-submit">Log In</button>
+      </form>
+      <button type="button" class="btn-auth-close" id="btn-auth-close">Cancel</button>
+    </div>
+  </div>
+
   <!-- END OF CALL SUMMARY MODAL -->
   <div id="modal-summary" class="modal-overlay hide">
     <div class="modal-card">
@@ -338,6 +383,20 @@
         <button class="btn-modal-secondary" id="btn-close-summary">Practice Again</button>
         <button class="btn-modal-primary" id="btn-summary-mistakes">Review Mistakes</button>
       </div>
+    </div>
+  </div>
+
+  <!-- CONVERSATION REPLAY MODAL -->
+  <div id="modal-session-replay" class="modal-overlay hide">
+    <div class="modal-card" style="max-width:580px;width:100%;max-height:85vh;display:flex;flex-direction:column;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--line);padding-bottom:12px;">
+        <div>
+          <div id="replay-title" style="font:600 18px var(--sans);color:var(--ink);">Session Dialogue</div>
+          <div id="replay-subtitle" style="font-size:13px;color:var(--mute);">Turn by turn transcript</div>
+        </div>
+        <button class="btn-icon" id="btn-close-replay" title="Close" style="width:32px;height:32px;">✕</button>
+      </div>
+      <div id="replay-messages-log" class="call-log" style="flex:1;overflow-y:auto;padding:8px 0;display:flex;flex-direction:column;gap:12px;max-height:55vh;"></div>
     </div>
   </div>
 

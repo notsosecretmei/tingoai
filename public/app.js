@@ -1,10 +1,94 @@
-// Tingo AI - Client Application Logic
-// Complete conversational multilingual learning platform
+// Tinguin AI - Client Application Logic
+// Multilingual voice-call learning with savage AI tutors who roast mistakes into fluency
 
 const LEVELS = ["Beginner", "Elementary", "Intermediate", "Advanced"];
 
-// Multilingual Configurations
+// Multilingual Configurations — Tinguin Roast & Fluency Platform
 const LANGUAGES = {
+  ja: {
+    id: "ja",
+    name: "Japanese",
+    flag: "🇯🇵",
+    code: "ja-JP",
+    tutor: "Kenji 健二",
+    tutorAvatar: "健",
+    callBtn: "Call Kenji",
+    subhead: "Learn Japanese by phone call with Kenji — a brutally honest Tokyoite who laughs at your anime-cringe mistakes and roasts your awful grammar into real fluency.",
+    phoneticLabel: "Romaji / Reading",
+    personality: "savagely witty, sarcastic Tokyo native. Openly bursts out laughing (草, ちょww, 爆笑) when the learner makes ridiculous mistakes, butchers pronunciation, or uses weird anime phrases in real situations. Mocks awkward phrasing creatively, but teaches the exact sharp, natural way real Tokyo locals speak.",
+    greetings: [
+      { text: "こんにちは！", sub: "Konnichiwa!", en: "Hello!" },
+      { text: "何言ってるの？", sub: "Nani itteru no?", en: "What on earth are you saying?" },
+      { text: "草生えるわ", sub: "Kusa haeru wa", en: "That's hilarious (LOL)" },
+      { text: "ちゃんと喋って！", sub: "Chanto shabette!", en: "Speak properly!" }
+    ],
+    topics: [
+      "Ramen & Izakaya",
+      "Introductions & Etiquette",
+      "Shopping & Akihabara",
+      "Trains & Tokyo Navigation",
+      "Daily Routine & Anime",
+      "Travel in Japan",
+      "Free talk"
+    ],
+    scenarios: [
+      {
+        tag: "Ramen",
+        level: "Beginner",
+        title: "Ordering ramen in Shibuya",
+        userMsg: "すみません、豚骨ラーメン味玉付きでお願いします。",
+        tutorMsg: "草、注文はできたけど、まさかスープ飲み干して塩分過多で倒れないでよ？麺の硬さは？'麺硬めで！'って言ってみて。",
+        topic: "Ramen & Izakaya"
+      },
+      {
+        tag: "Introductions",
+        level: "Beginner",
+        title: "Day one in Japanese",
+        userMsg: "初めまして！日本語を勉強しています。",
+        tutorMsg: "へぇー、勉強してる割には発音が宇宙人だけどね（笑）！何で日本語勉強してるの？アニメ？",
+        topic: "Introductions & Etiquette"
+      },
+      {
+        tag: "Shopping",
+        level: "Elementary",
+        title: "Shopping in Akihabara",
+        userMsg: "これ、試してもいいですか？",
+        tutorMsg: "よし、聞けたね。でもレジでオドオドしないでよ。免税したいなら『免税できますか？』って堂々と言いな！",
+        topic: "Shopping & Akihabara"
+      },
+      {
+        tag: "Directions",
+        level: "Elementary",
+        title: "Lost in Shinjuku Station",
+        userMsg: "すみません、山手線はどこですか？",
+        tutorMsg: "ちょww 新宿駅で迷子とかテンプレすぎ！南口のサインを探して『南口はどちらですか？』って聞いてみて！",
+        topic: "Trains & Tokyo Navigation"
+      },
+      {
+        tag: "Anime & Slang",
+        level: "Intermediate",
+        title: "Real Tokyo slang vs Anime",
+        userMsg: "最近、日本のアニメを見ています。",
+        tutorMsg: "出た！アニメ日本語！リアルで『貴様』とか言ってたら通報されるからね（笑）！日常のリアルな相槌を教えるよ。",
+        topic: "Daily Routine & Anime"
+      },
+      {
+        tag: "Free Talk",
+        level: "All Levels",
+        title: "Casual banter with Kenji",
+        userMsg: "今日の天気はとてもいいですね。",
+        tutorMsg: "天気の話とか教科書かよ！もっと面白いこと話してよ。今日何やらかしたの？",
+        topic: "Free talk"
+      }
+    ],
+    helpers: [
+      { text: "もう少しゆっくり話してください (Please speak slower)", label: "🐢 ゆっくり (Slower)" },
+      { text: "どういう意味ですか？ (What does that mean?)", label: "❓ どういう意味？ (Meaning)" },
+      { text: "もう一度言ってください (Please repeat that)", label: "🔁 もう一度 (Repeat)" },
+      { text: "ちょっと分かりません (I don't quite get it)", label: "🤔 分からない (Don't get it)" }
+    ]
+  },
+
   zh: {
     id: "zh",
     name: "Chinese (Mandarin)",
@@ -13,14 +97,14 @@ const LANGUAGES = {
     tutor: "Lao Li 老李",
     tutorAvatar: "李",
     callBtn: "Call Lao Li",
-    subhead: "Learn Chinese by phone call with Lao Li — a sharp-tongued, witty tutor who will not go easy on you.",
+    subhead: "Learn Chinese by phone call with Lao Li — a savage Beijing uncle who laughs at your butchered tones and roasts you until you speak like a local.",
     phoneticLabel: "Pinyin",
-    personality: "sharp-tongued, witty, dry, teasing, never coddles. Playfully roast errors, explain corrections with pinyin, and demand active speaking.",
+    personality: "savage, sharp-tongued Beijing uncle with zero filter. Hysterically laughs (哈哈哈哈！哎哟我的妈呀！) at bad tones and flat robotic pronunciation. Roasts the learner creatively and makes fun of their silly mistakes before making them repeat the phrase properly.",
     greetings: [
-      { text: "你好", sub: "Nǐ hǎo", en: "Hello" },
-      { text: "早上好", sub: "Zǎoshang hǎo", en: "Good morning" },
+      { text: "你好！", sub: "Nǐ hǎo!", en: "Hello!" },
+      { text: "哈哈你说的啥？", sub: "Hāhā nǐ shuō de shá?", en: "Haha what did you say?" },
       { text: "吃了没？", sub: "Chīle méi?", en: "Have you eaten?" },
-      { text: "慢慢来", sub: "Mànmàn lái", en: "Take it slow" }
+      { text: "声调跑哪去了！", sub: "Shēngdiào pǎo nǎ qù le!", en: "Where did your tones go!" }
     ],
     topics: [
       "Ordering food",
@@ -37,7 +121,7 @@ const LANGUAGES = {
         level: "Beginner",
         title: "Day one in Chinese",
         userMsg: "Hi! I want to learn Chinese.",
-        tutorMsg: "你好！Let's start simple: how to introduce yourself. We'll go 慢慢来 — slowly.",
+        tutorMsg: "你好！别紧张，虽然你的发音大概率很搞笑，但咱们先从打招呼开始：你好！大声说！",
         topic: "Introductions"
       },
       {
@@ -45,7 +129,7 @@ const LANGUAGES = {
         level: "Elementary",
         title: "Street food in Chengdu",
         userMsg: "老板，来一碗牛肉面。",
-        tutorMsg: "Good, but don't forget 不要辣 (not spicy) unless you want your tongue on fire!",
+        tutorMsg: "点得挺溜，但别忘了说'不要辣'，不然一口下去你舌头直接喷火！跟我念：不要辣！",
         topic: "Ordering food"
       },
       {
@@ -53,7 +137,7 @@ const LANGUAGES = {
         level: "Elementary",
         title: "Bargaining at Silk Market",
         userMsg: "太贵了，能不能便宜一点？",
-        tutorMsg: "Now say it like you mean it: 便宜点吧！Look them in the eye.",
+        tutorMsg: "哈哈你这语气软绵绵的像借钱！拿点气势出来，眼神瞪着老板说：便宜点吧！",
         topic: "Shopping & Bargaining"
       },
       {
@@ -61,7 +145,7 @@ const LANGUAGES = {
         level: "Intermediate",
         title: "Taking a taxi in Beijing",
         userMsg: "师傅，请去三里屯。",
-        tutorMsg: "The driver asks if you want the highway. Answer: 走高速 or 不走高速.",
+        tutorMsg: "司机一脚油门问你走不走高速，你别懵啊！赶紧回答：走高速还是不走高速？",
         topic: "Directions & Taxis"
       },
       {
@@ -69,7 +153,7 @@ const LANGUAGES = {
         level: "Beginner",
         title: "Saying what you like",
         userMsg: "我喜欢喝茶。",
-        tutorMsg: "Today let's practice saying what you like. Start with: 我喜欢... Tell me one thing you like.",
+        tutorMsg: "喜欢喝茶？听着像八十岁老大爷！来，用'我喜欢...'说一个你真正痴迷的东西！",
         topic: "Daily banter"
       },
       {
@@ -77,7 +161,7 @@ const LANGUAGES = {
         level: "All Levels",
         title: "Casual chat with Lao Li",
         userMsg: "今天工作有点累。",
-        tutorMsg: "What happened today? Don't think in English first — speak directly in Chinese: 今天...",
+        tutorMsg: "累就对了！活着哪有不累的（笑）。用中文跟我吐槽两句，到底发生啥了？",
         topic: "Free talk"
       }
     ],
@@ -97,14 +181,14 @@ const LANGUAGES = {
     tutor: "Mateo",
     tutorAvatar: "M",
     callBtn: "Call Mateo",
-    subhead: "Learn Spanish by phone call with Mateo — a passionate, witty Madrid tutor who hates robotic textbook Spanish.",
+    subhead: "Learn Spanish by phone call with Mateo — a theatrical Madrid roastmaster who laughs at your flat English vowels and turns you fluent through tough love.",
     phoneticLabel: "Pronunciation & Tip",
-    personality: "passionate, fast-talking, playful, witty Madrid tutor. Teases English speakers who translate word-for-word. Pushes you to roll your R's and sound natural.",
+    personality: "theatrical, fast-talking, savage Madrid tutor. Bursts out laughing (¡Jajaja por Dios!) when you translate word-for-word or murder Spanish vowels. Teases you mercilessly into rolling your R's.",
     greetings: [
       { text: "¡Hola!", sub: "OH-lah", en: "Hello!" },
-      { text: "¿Qué tal?", sub: "keh TAHL", en: "How's it going?" },
-      { text: "Buenos días", sub: "BWEH-nos DEE-as", en: "Good morning" },
-      { text: "Poco a poco", sub: "POH-ko ah POH-ko", en: "Little by little" }
+      { text: "¿Qué desastre es ese?", sub: "keh deh-SAHS-treh", en: "What mess is that?" },
+      { text: "¡Venga, habla!", sub: "VEHN-gah AH-blah", en: "Come on, speak up!" },
+      { text: "Sin vergüenza", sub: "seen vehr-GWEHN-sah", en: "Without shame" }
     ],
     topics: [
       "Tapas & Drinks",
@@ -117,51 +201,51 @@ const LANGUAGES = {
     ],
     scenarios: [
       {
-        tag: "Daily Life",
+        tag: "Food & Drinks",
         level: "Beginner",
-        title: "Saying what you like in Spanish",
-        userMsg: "Me gusta la música.",
-        tutorMsg: "¡Perfecto! Start with: Me gusta... Now tell me one thing you actually hate doing.",
-        topic: "Daily Life & Plans"
+        title: "Ordering tapas in Seville",
+        userMsg: "Una ración de patatas bravas y una cerveza, por favor.",
+        tutorMsg: "¡Jajaja por fin alguien con buen gusto! But pronounce that 'cerveza' like an Andalusian, not a tourist: ¡Una caña bien fría!",
+        topic: "Tapas & Drinks"
       },
       {
         tag: "Introductions",
         level: "Beginner",
         title: "Day one in Madrid",
-        userMsg: "Hola, me llamo Alex y quiero aprender español.",
-        tutorMsg: "¡Bienvenido! Let's get past 'Hola': tell me where you're from and why you're here.",
+        userMsg: "Hola, quiero hablar español.",
+        tutorMsg: "¡Madre mía, qué tímido! Pecho arriba y di: '¡Hola! Vengo a conquistar el español.' ¿De dónde eres?",
         topic: "Introductions"
-      },
-      {
-        tag: "Food & Drinks",
-        level: "Elementary",
-        title: "Ordering tapas in Seville",
-        userMsg: "Una ración de patatas bravas y una caña, por favor.",
-        tutorMsg: "¡Eso es! But ask if the sauce is spicy: ¿La salsa pica mucho?",
-        topic: "Tapas & Drinks"
       },
       {
         tag: "Shopping",
         level: "Elementary",
         title: "Bargaining at El Rastro",
-        userMsg: "¿Cuánto cuesta esta chaqueta? ¿Me hace un descuento?",
-        tutorMsg: "Good boldness! Now say: ¿Me lo deja en veinte euros?",
+        userMsg: "¿Cuánto cuesta esto? ¿Me lo deja más barato?",
+        tutorMsg: "¿Barato? ¡El vendedor se va a reír en tu cara! Di con descaro: 'Venga, déjamelo en diez pavos y trato hecho.'",
         topic: "Market & Shopping"
       },
       {
         tag: "Directions",
         level: "Intermediate",
         title: "Asking directions in Barcelona",
-        userMsg: "Disculpe, ¿dónde está la parada de metro más cercana?",
-        tutorMsg: "Sigue todo recto y gira a la derecha en la segunda calle.",
+        userMsg: "Disculpe, ¿dónde está la parada de metro?",
+        tutorMsg: "¡Bien! Ahora pregunta rápido si la línea está cortada: '¿Hay alguna avería hoy?'",
         topic: "Getting Around"
+      },
+      {
+        tag: "Daily Life",
+        level: "Beginner",
+        title: "Spilling tea in Spanish",
+        userMsg: "Hoy tuve un día terrible.",
+        tutorMsg: "¡Cuéntame el salseo! Jajaja, desahógate conmigo en español: ¿quién te hizo la vida imposible hoy?",
+        topic: "Daily Life & Plans"
       },
       {
         tag: "Free Talk",
         level: "All Levels",
         title: "Casual banter with Mateo",
-        userMsg: "El fin de semana salí con unos amigos.",
-        tutorMsg: "¡Cuéntame el chisme! ¿Adónde fueron y qué tal la pasaron?",
+        userMsg: "El fin de semana salí con amigos.",
+        tutorMsg: "¡A ver si sobreviviste a la fiesta española! ¿Hasta qué hora te quedaste de copas?",
         topic: "Free talk"
       }
     ],
@@ -181,14 +265,14 @@ const LANGUAGES = {
     tutor: "Camille",
     tutorAvatar: "C",
     callBtn: "Call Camille",
-    subhead: "Learn French by phone call with Camille — an elegant, cheeky Parisian tutor who will get you speaking with charm.",
+    subhead: "Learn French by phone call with Camille — a delightfully snooty Parisian tutor who winces and laughs at your accent until you speak like a true local.",
     phoneticLabel: "Pronunciation & Liaison",
-    personality: "elegant, Parisian, cheeky, witty. Teases bad vowel sounds playfully, strictly refuses robotic textbook phrasing, and teaches how French people actually speak.",
+    personality: "chic, snarky, delightfully judgmental Parisian. Gasps dramatically and laughs (Mon dieu, *laughs*) when you butcher French vowels or sound like a tourist handbook. Refuses to let you sound robotic.",
     greetings: [
       { text: "Bonjour !", sub: "bohn-zhoor", en: "Hello!" },
-      { text: "Ça va ?", sub: "sah vah", en: "How are you?" },
-      { text: "Enchanté", sub: "ahn-shahn-tay", en: "Nice to meet you" },
-      { text: "On y va !", sub: "ohn ee vah", en: "Let's go!" }
+      { text: "Mon dieu...", sub: "mohn dyuh", en: "My god..." },
+      { text: "On essaie encore ?", sub: "ohn eh-say ahn-kor", en: "Shall we try again?" },
+      { text: "Sans accent bizarre !", sub: "sahn ahk-sahn bee-zahr", en: "Without the weird accent!" }
     ],
     topics: [
       "Café & Boulangerie",
@@ -201,51 +285,51 @@ const LANGUAGES = {
     ],
     scenarios: [
       {
-        tag: "Daily Life",
-        level: "Beginner",
-        title: "Talking about your day in French",
-        userMsg: "Je suis fatigué.",
-        tutorMsg: "Ah, comme tout le monde à Paris ! Tell me why: J'ai trop travaillé aujourd'hui.",
-        topic: "Daily routine"
-      },
-      {
         tag: "Café",
         level: "Beginner",
         title: "Ordering at a Parisian café",
-        userMsg: "Un café crème et un croissant, s'il vous plaît.",
-        tutorMsg: "Très bien ! Now ask for the bill with confidence: L'addition, s'il vous plaît.",
+        userMsg: "Un café et un croissant, s'il vous plaît.",
+        tutorMsg: "Ah, pas mal ! Mais regarde le serveur dans les yeux et dis 'un café crème'. Et n'oublie jamais le 'Bonjour' d'abord !",
         topic: "Café & Boulangerie"
       },
       {
         tag: "Introductions",
         level: "Beginner",
-        title: "Day one in French",
-        userMsg: "Bonjour ! Je m'appelle Sam et je viens de Londres.",
-        tutorMsg: "Enchantée Sam ! Now tell me what you do for a living in one sentence.",
+        title: "Day one in Paris",
+        userMsg: "Bonjour ! Je m'appelle Sam.",
+        tutorMsg: "Enchantée Sam. Bon, l'accent a besoin d'amour (*rire*), mais au moins tu tentes ta chance ! D'où viens-tu ?",
         topic: "Introductions"
       },
       {
         tag: "Shopping",
         level: "Elementary",
         title: "Boutique on the Left Bank",
-        userMsg: "C'est un peu trop cher, vous avez autre chose ?",
-        tutorMsg: "Direct and honest! Say: Est-ce que vous avez une taille au-dessus ?",
+        userMsg: "C'est un peu trop cher pour moi.",
+        tutorMsg: "Haha, trop honnête ! À Paris, on dit avec élégance : 'Vous auriez quelque chose de plus abordable ?'",
         topic: "Shopping & Boutiques"
       },
       {
         tag: "Directions",
         level: "Intermediate",
         title: "Navigating the Paris Metro",
-        userMsg: "Pardon, où se trouve la correspondance pour la ligne 4 ?",
-        tutorMsg: "Prenez le couloir à gauche, puis descendez les escaliers.",
+        userMsg: "Pardon, où se trouve la ligne 4 ?",
+        tutorMsg: "Attention aux pickpockets ! Prends le couloir à gauche et marche d'un pas pressé comme un vrai Parisien.",
         topic: "Paris Metro & Directions"
+      },
+      {
+        tag: "Daily Routine",
+        level: "Beginner",
+        title: "Complaining like a Parisian",
+        userMsg: "Je suis fatigué.",
+        tutorMsg: "Bienvenue en France ! Ici râler est un art. Dis : 'J'en ai marre, la journée était interminable.'",
+        topic: "Daily routine"
       },
       {
         tag: "Free Talk",
         level: "All Levels",
         title: "Casual chat with Camille",
-        userMsg: "Qu'est-ce que tu me recommandes de visiter à Paris ?",
-        tutorMsg: "Évite la tour Eiffel à midi ! Va plutôt te balader au canal Saint-Martin.",
+        userMsg: "J'adore la nourriture française.",
+        tutorMsg: "Évidemment, qui ne l'aimerait pas ? Mais dis-moi : baguette tradition ou pain de mie industriel ? Choisis bien !",
         topic: "Free talk"
       }
     ],
@@ -265,14 +349,14 @@ const LANGUAGES = {
     tutor: "Hans",
     tutorAvatar: "H",
     callBtn: "Call Hans",
-    subhead: "Learn German by phone call with Hans — direct, dry Berlin humor, razor-sharp on grammar, but warm at heart.",
+    subhead: "Learn German by phone call with Hans — a dry Berlin cynic who treats bad grammar as a criminal offense and turns you fluent through tough love.",
     phoneticLabel: "Pronunciation & Case",
-    personality: "direct, dry Berlin humor, razor-sharp on der/die/das and cases. Values precision, praises efficiency, roasts convoluted sentences.",
+    personality: "deadpan, brutally direct Berlin cynic. Laughs dryly (Ha! Nein, nein, nein) at ruined German cases, chaotic word order, and fluffy politeness. Demands brutal efficiency and correct articles.",
     greetings: [
       { text: "Hallo!", sub: "HAH-loh", en: "Hello!" },
-      { text: "Guten Tag", sub: "GOO-ten TAHK", en: "Good day" },
-      { text: "Wie geht's?", sub: "vee GAYTS", en: "How are you?" },
-      { text: "Alles klar!", sub: "AH-les KLAHR", en: "All good!" }
+      { text: "Was war das denn?!", sub: "vas vahr dahs den", en: "What on earth was that?!" },
+      { text: "Kurz und knackig!", sub: "koorts oont KNAH-kik", en: "Short and crisp!" },
+      { text: "Auf den Punkt!", sub: "owf dehn POONKT", en: "Get to the point!" }
     ],
     topics: [
       "Bakery & Biergarten",
@@ -285,51 +369,51 @@ const LANGUAGES = {
     ],
     scenarios: [
       {
-        tag: "Introductions",
-        level: "Beginner",
-        title: "Day one in Berlin",
-        userMsg: "Hallo, ich heiße Jordan und lerne Deutsch.",
-        tutorMsg: "Freut mich! Und warum Deutsch? Mach einen schnellen Satz daraus.",
-        topic: "Introductions"
-      },
-      {
         tag: "Bakery",
         level: "Beginner",
         title: "At the Munich bakery",
-        userMsg: "Ich hätte gerne zwei Brötchen und eine Brezel, bitte.",
-        tutorMsg: "Sehr ordentlich. Und zum Mitnehmen: 'Zum Mitnehmen, bitte.'",
+        userMsg: "Ich möchte zwei Brötchen, bitte.",
+        tutorMsg: "Nicht schlecht. Aber die Bäckereifachverkäuferin hat keine Geduld! Sag zackig: 'Zwei Schrippen zum Mitnehmen, bitte!'",
         topic: "Bakery & Biergarten"
+      },
+      {
+        tag: "Introductions",
+        level: "Beginner",
+        title: "Day one in Berlin",
+        userMsg: "Hallo, ich bin neu hier.",
+        tutorMsg: "Ha, das hört man am Akzent! Willkommen im Dschungel. Sag mir sofort, warum du dir freiwillig deutsche Grammatik antust.",
+        topic: "Introductions"
       },
       {
         tag: "Directions",
         level: "Intermediate",
         title: "Catching the S-Bahn",
-        userMsg: "Entschuldigung, auf welchem Gleis fährt der Zug nach Potsdam ab?",
-        tutorMsg: "Gleis drei, aber beeil dich — die DB wartet auf niemanden!",
+        userMsg: "Entschuldigung, fährt dieser Zug nach Potsdam?",
+        tutorMsg: "Ja, aber beeil dich — die Türen schließen automatisch und die Bahn wartet nicht auf Touristen!",
         topic: "Trains & Directions"
       },
       {
         tag: "Shopping",
         level: "Elementary",
-        title: "At the flea market (Flohmarkt)",
-        userMsg: "Kann man am Preis noch etwas machen?",
-        tutorMsg: "Direkt auf den Punkt. Schlage zehn Euro vor: 'Für zehn nehme ich es.'",
+        title: "At the supermarket checkout",
+        userMsg: "Kann ich mit Karte zahlen?",
+        tutorMsg: "In Deutschland? Jajaja, mutige Frage! Manchmal nur Bargeld! Frag: 'Erst ab zehn Euro oder auch Kleingeld?'",
         topic: "Shopping & Supermarket"
       },
       {
         tag: "Daily Routine",
         level: "Beginner",
-        title: "Talking about your day",
-        userMsg: "Heute war die Arbeit ziemlich anstrengend.",
-        tutorMsg: "Klassischer Montag. Sag mir, woran es lag: 'Zu viele Meetings.'",
+        title: "German workplace banter",
+        userMsg: "Feierabend!",
+        tutorMsg: "Das heiligste Wort im deutschen Sprachgebrauch! Geh nach Hause und mach nichts mehr. Bis morgen!",
         topic: "Work & Daily Routine"
       },
       {
         tag: "Free Talk",
         level: "All Levels",
         title: "Casual banter with Hans",
-        userMsg: "Was hältst du von der Berliner U-Bahn?",
-        tutorMsg: "Laut, dreckig, aber fährt alle drei Minuten. Was will man mehr?",
+        userMsg: "Wie gefällt dir Berlin?",
+        tutorMsg: "Laut, chaotisch, pleite, aber sexy. Was willst du wissen?",
         topic: "Free talk"
       }
     ],
@@ -341,90 +425,6 @@ const LANGUAGES = {
     ]
   },
 
-  ja: {
-    id: "ja",
-    name: "Japanese",
-    flag: "🇯🇵",
-    code: "ja-JP",
-    tutor: "Kenji 健二",
-    tutorAvatar: "健",
-    callBtn: "Call Kenji",
-    subhead: "Learn Japanese by phone call with Kenji — a Tokyo native who teaches real, natural speech instead of stiff textbook lines.",
-    phoneticLabel: "Romaji / Reading",
-    personality: "warm, polite yet playfully teasing, Tokyo native. Teaches real spoken Japanese, naturally blending casual speech and keigo etiquette without the stiff textbook phrases.",
-    greetings: [
-      { text: "こんにちは", sub: "Konnichiwa", en: "Hello" },
-      { text: "おはようございます", sub: "Ohayō gozaimasu", en: "Good morning" },
-      { text: "お疲れ様です", sub: "Otsukaresama desu", en: "Good work today" },
-      { text: "よろしく！", sub: "Yoroshiku!", en: "Nice to meet you" }
-    ],
-    topics: [
-      "Ramen & Izakaya",
-      "Introductions & Etiquette",
-      "Shopping & Akihabara",
-      "Trains & Tokyo Navigation",
-      "Daily Routine & Anime",
-      "Travel in Japan",
-      "Free talk"
-    ],
-    scenarios: [
-      {
-        tag: "Interview",
-        level: "Intermediate",
-        title: "A Tokyo interview",
-        userMsg: "おはようございます。本日はよろしくお願いいたします。",
-        tutorMsg: "完璧な挨拶ですね！では自己紹介を短く一言でどうぞ。",
-        topic: "Introductions & Etiquette"
-      },
-      {
-        tag: "Introductions",
-        level: "Beginner",
-        title: "Day one in Japanese",
-        userMsg: "初めまして！日本語を勉強しています。",
-        tutorMsg: "よろしく！ゆっくりいきましょう。何で日本語を勉強してるの？",
-        topic: "Introductions & Etiquette"
-      },
-      {
-        tag: "Ramen",
-        level: "Beginner",
-        title: "Ordering ramen in Shibuya",
-        userMsg: "すみません、豚骨ラーメン味玉付きでお願いします。",
-        tutorMsg: "いいね！麺の硬さも指定してみて: '麺硬めでお願いします！'",
-        topic: "Ramen & Izakaya"
-      },
-      {
-        tag: "Shopping",
-        level: "Elementary",
-        title: "Shopping in Akihabara",
-        userMsg: "これ、試してもいいですか？",
-        tutorMsg: "いい質問！もし免税できるか聞くなら: '免税できますか？'",
-        topic: "Shopping & Akihabara"
-      },
-      {
-        tag: "Directions",
-        level: "Elementary",
-        title: "Lost in Shinjuku Station",
-        userMsg: "すみません、山手線はどこですか？",
-        tutorMsg: "新宿駅はダンジョンですからね！南口の改札を目指しましょう。",
-        topic: "Trains & Tokyo Navigation"
-      },
-      {
-        tag: "Free Talk",
-        level: "All Levels",
-        title: "Casual chat with Kenji",
-        userMsg: "最近、日本のアニメを見ています。",
-        tutorMsg: "おっ、何のアニメ？一番好きなキャラクターを教えて！",
-        topic: "Free talk"
-      }
-    ],
-    helpers: [
-      { text: "もう少しゆっくり話してください (Please speak a bit slower)", label: "🐢 ゆっくり (Slower)" },
-      { text: "どういう意味ですか？ (What does that mean?)", label: "❓ どういう意味？ (Meaning)" },
-      { text: "もう一度言ってください (Please say it once more)", label: "🔁 もう一度 (Repeat)" },
-      { text: "よく分かりません (I don't really understand)", label: "🤔 分からない (Don't get it)" }
-    ]
-  },
-
   ko: {
     id: "ko",
     name: "Korean",
@@ -433,14 +433,14 @@ const LANGUAGES = {
     tutor: "Min-jun 민준",
     tutorAvatar: "민",
     callBtn: "Call Min-jun",
-    subhead: "Learn Korean by phone call with Min-jun — a lively Seoul tutor who breaks down real speech, slang, and K-drama phrasing.",
+    subhead: "Learn Korean by phone call with Min-jun — a sharp-tongued Seoul tutor who laughs at cringe K-drama lines and gets you speaking real banter.",
     phoneticLabel: "Romanization / Pronunciation",
-    personality: "lively, witty Seoul tutor. Teases flat intonations, loves drama references, teaches real conversational Korean and banmal/jondaenmal nuances.",
+    personality: "witty, dramatic Seoul local. Bursts out laughing (ㅋㅋㅋ, 헐 진짜?) when you speak like an old sageuk drama or butcher pronunciation. Teases you into speaking natural modern conversational Korean.",
     greetings: [
-      { text: "안녕하세요", sub: "Annyeonghaseyo", en: "Hello" },
-      { text: "반가워!", sub: "Bangawo!", en: "Nice to meet you!" },
-      { text: "밥 먹었어?", sub: "Bap meogeosseo?", en: "Did you eat?" },
-      { text: "천천히 해", sub: "Cheoncheonhi hae", en: "Take it slow" }
+      { text: "안녕!", sub: "Annyeong!", en: "Hey!" },
+      { text: "헐, 대박 ㅋㅋㅋ", sub: "Heol, daebak ㅋㅋㅋ", en: "Omg, for real LOL" },
+      { text: "밥은 먹고 다니냐?", sub: "Bap eun meokgo daninya?", en: "Are you eating well?" },
+      { text: "제대로 말해봐!", sub: "Jedaero malhaebwa!", en: "Say it properly!" }
     ],
     topics: [
       "K-Food & Bunsik",
@@ -453,43 +453,43 @@ const LANGUAGES = {
     ],
     scenarios: [
       {
-        tag: "Introductions",
-        level: "Beginner",
-        title: "Day one in Korean",
-        userMsg: "Hi! I want to learn Korean.",
-        tutorMsg: "반가워! Let's start simple: how to say hello: 안녕하세요! We'll go 천천히 — slowly.",
-        topic: "Introductions"
-      },
-      {
         tag: "K-Food",
         level: "Beginner",
         title: "Street food in Hongdae",
-        userMsg: "이모, 떡볶이 1인분하고 어묵 주세요.",
-        tutorMsg: "발음 아주 자연스러워요! 매운 거 잘 먹어요? '덜 맵게 해주세요'도 기억해요.",
+        userMsg: "이모, 떡볶이 1인분 주세요.",
+        tutorMsg: "오 주문은 좋은데, 매운맛에 기절하지나 마요! 튀김도 시켜야지: '김말이도 추가해주세요!'",
         topic: "K-Food & Bunsik"
+      },
+      {
+        tag: "Introductions",
+        level: "Beginner",
+        title: "Day one in Seoul",
+        userMsg: "안녕하세요, 한국어 배우고 싶어요.",
+        tutorMsg: "ㅋㅋㅋ 반가워요! 교과서 말투 말고 요즘 쓰는 인사: '반갑습니다! 잘 부탁드려요.' 크게 말해봐요!",
+        topic: "Introductions"
       },
       {
         tag: "Shopping",
         level: "Elementary",
         title: "Bargaining in Dongdaemun",
-        userMsg: "조금만 깎아주세요, 서비스도 주세요!",
-        tutorMsg: "오, 벌써 흥정을 알다니! 애교 섞어서: '언니, 좀만 깎아주세요~'",
+        userMsg: "조금만 깎아주세요!",
+        tutorMsg: "눈빛에 간절함이 없잖아요 ㅋㅋㅋ 귀엽게 웃으면서: '언니~ 좀만 깎아주세요, 네?' 해봐요!",
         topic: "Shopping & Myeongdong"
       },
       {
         tag: "Taxi",
         level: "Intermediate",
-        title: "Taking a taxi to Gangnam",
-        userMsg: "기사님, 강남역 10번 출구로 가주세요.",
-        tutorMsg: "네, 출발합니다! 길 막히면 '빠른 길로 가주세요'라고 말해봐요.",
+        title: "Taking a taxi in Gangnam",
+        userMsg: "기사님, 강남역으로 가주세요.",
+        tutorMsg: "퇴근 시간에 강남? 차 엄청 막힐 텐데 ㅋㅋㅋ '골목으로 안 막히게 가주세요'라고 말해봐요!",
         topic: "Subway & Taxis"
       },
       {
         tag: "Daily Life",
         level: "Beginner",
         title: "Talking about your day",
-        userMsg: "오늘 너무 피곤했어요.",
-        tutorMsg: "퇴근하고 맛있는 거 먹어야죠! 오늘 저녁 메뉴는 뭐예요?",
+        userMsg: "오늘 너무 피곤해요.",
+        tutorMsg: "월요병 걸렸네 ㅋㅋㅋ 당충전 해야죠! 오늘 저녁에 치맥 어때요? 치맥 먹고 싶다고 말해봐요!",
         topic: "K-Dramas & Daily Life"
       },
       {
@@ -497,12 +497,12 @@ const LANGUAGES = {
         level: "All Levels",
         title: "Casual chat with Min-jun",
         userMsg: "요즘 한국 드라마 보고 있어요.",
-        tutorMsg: "진짜요? 어떤 드라마요? 최애 배우 누구예요?",
+        tutorMsg: "설마 오빠~ 이러면서 본 건 아니죠? ㅋㅋㅋ 무슨 드라마인데 그렇게 빠졌어요?",
         topic: "Free talk"
       }
     ],
     helpers: [
-      { text: "조금만 천천히 말해주세요 (Please speak a bit slower)", label: "🐢 천천히 (Slower)" },
+      { text: "조금만 천천히 말해주세요 (Please speak slower)", label: "🐢 천천히 (Slower)" },
       { text: "무슨 뜻이에요? (What does that mean?)", label: "❓ 무슨 뜻? (Meaning)" },
       { text: "다시 한번 말해주세요 (Please say it again)", label: "🔁 다시 한번 (Repeat)" },
       { text: "잘 모르겠어요 (I don't quite get it)", label: "🤔 모르겠어요 (Don't get it)" }
@@ -517,14 +517,14 @@ const LANGUAGES = {
     tutor: "Coach Sarah",
     tutorAvatar: "S",
     callBtn: "Call Coach Sarah",
-    subhead: "Master English by phone call with Coach Sarah — eliminating robotic phrasing, mastering natural idioms, and speaking with true confidence.",
+    subhead: "Master English by phone call with Coach Sarah — a brutally sarcastic New Yorker who roasts robotic phrasing and makes you sound like a real human.",
     phoneticLabel: "Natural Phrasing & Slang",
-    personality: "sharp, encouraging, witty New York coach. Eliminates robotic textbook English, teaches idiomatic speech, phrasing, and natural conversational cadence.",
+    personality: "sharp, brutally sarcastic New York coach. Bursts out laughing (Haha wow, really?) when you use archaic 19th-century textbook words or sound like a robot. Pushes you to sound natural, punchy, and confident.",
     greetings: [
       { text: "Hey there!", sub: "Natural greeting", en: "Hello!" },
-      { text: "How's it going?", sub: "Common check-in", en: "How are you?" },
-      { text: "What's up?", sub: "Casual intro", en: "What's new?" },
-      { text: "Take it easy", sub: "Relaxed phrasing", en: "Don't stress" }
+      { text: "Who taught you that?!", sub: "Callout", en: "Where did you hear that?" },
+      { text: "Speak like a human!", sub: "Reality check", en: "Cut the robotic textbook talk" },
+      { text: "Own your accent!", sub: "Confidence push", en: "Speak up with power" }
     ],
     topics: [
       "Coffee & Diners",
@@ -537,51 +537,51 @@ const LANGUAGES = {
     ],
     scenarios: [
       {
-        tag: "Interview",
-        level: "Intermediate",
-        title: "Job interview small talk",
-        userMsg: "Thanks for taking the time to speak with me today.",
-        tutorMsg: "Solid start! Now break the ice: 'I've been following your team's work on...'",
-        topic: "Job Interviews & Work"
+        tag: "Coffee",
+        level: "Beginner",
+        title: "Ordering at a New York diner",
+        userMsg: "Can I get an iced latte with oat milk, please?",
+        tutorMsg: "Crisp and fast, just how New York baristas like it! Now add some flair: 'And a chocolate croissant to go, thanks.'",
+        topic: "Coffee & Diners"
       },
       {
         tag: "Introductions",
         level: "Beginner",
-        title: "First conversation in English",
-        userMsg: "Hi, I'm learning English to speak with more confidence.",
-        tutorMsg: "You're in the right place! Tell me one thing you're excited about this week.",
+        title: "Day one in New York",
+        userMsg: "Hello, how do you do? I am learning English.",
+        tutorMsg: "Haha, 'how do you do'?! What century did you time-travel from? Drop the Victorian etiquette! Say: 'Hey, what's going on?' Try it!",
         topic: "Introductions & Networking"
-      },
-      {
-        tag: "Diner",
-        level: "Beginner",
-        title: "Ordering at a New York diner",
-        userMsg: "Can I get two eggs sunny-side up with sourdough toast?",
-        tutorMsg: "Crisp and clear. Don't forget the bottomless coffee: 'And a refill on coffee, please.'",
-        topic: "Coffee & Diners"
       },
       {
         tag: "Directions",
         level: "Elementary",
-        title: "Navigating downtown",
-        userMsg: "Excuse me, which way to the nearest subway entrance?",
-        tutorMsg: "Head down two blocks, take a left at the pharmacy, and you're there.",
+        title: "Navigating the subway",
+        userMsg: "Excuse me, does this train stop at 34th Street?",
+        tutorMsg: "Good! But ask if it's uptown or downtown before you end up in the wrong borough: 'Is this the uptown express?'",
         topic: "Directions & City Transit"
+      },
+      {
+        tag: "Interview",
+        level: "Intermediate",
+        title: "Job interview banter",
+        userMsg: "I believe I am an optimal candidate for this position.",
+        tutorMsg: "Optimal candidate? You sound like a LinkedIn algorithm! Say: 'I've got the exact hands-on skills your team needs.' Sound confident!",
+        topic: "Job Interviews & Work"
       },
       {
         tag: "Daily Life",
         level: "Beginner",
-        title: "Talking about your day",
-        userMsg: "Work was super hectic today.",
-        tutorMsg: "I hear you. Tell me what threw your schedule off: 'Back-to-back meetings all afternoon.'",
+        title: "Venting about your day",
+        userMsg: "Today work was very busy and bad.",
+        tutorMsg: "Very busy and bad? Come on, use real color! Say: 'Today was an absolute dumpster fire at work.' Feel the energy!",
         topic: "Job Interviews & Work"
       },
       {
         tag: "Free Talk",
         level: "All Levels",
         title: "Casual banter with Sarah",
-        userMsg: "What's your favorite thing about coaching English learners?",
-        tutorMsg: "Seeing that moment where you stop translating in your head and just start talking!",
+        userMsg: "What's the best spot to visit in NYC?",
+        tutorMsg: "Whatever you do, don't stand in the middle of Times Square staring at billboards like a deer in headlights! Tell me what you're actually into.",
         topic: "Free talk"
       }
     ],
@@ -596,7 +596,7 @@ const LANGUAGES = {
 
 // App State
 let state = {
-  langId: "zh",
+  langId: "ja",
   level: 0,
   topic: 0,
   inCall: false,
@@ -610,14 +610,175 @@ let state = {
   sessionMistakes: [],
   sessionPhrases: [],
   currentTab: "practice",
-  voices: []
+  voices: [],
+  token: localStorage.getItem("tinguin_token") || null,
+  user: null,
+  authMode: "login"
 };
 
 const $ = id => document.getElementById(id);
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+// Helper: Authenticated fetch wrapper
+function authFetch(url, options = {}) {
+  options.headers = options.headers || {};
+  const token = state.token || localStorage.getItem("tinguin_token");
+  if (token) {
+    if (options.headers instanceof Headers) {
+      options.headers.set("Authorization", `Bearer ${token}`);
+    } else {
+      options.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+  return fetch(url, options);
+}
+
+// User Navigation & Auth Management
+function setAuthMode(mode) {
+  state.authMode = mode;
+  const isLogin = mode === "login";
+  const tabLogin = $("tab-login");
+  const tabReg = $("tab-register");
+  if (tabLogin && tabReg) {
+    tabLogin.classList.toggle("active", isLogin);
+    tabReg.classList.toggle("active", !isLogin);
+  }
+  if ($("auth-title")) $("auth-title").textContent = isLogin ? "Welcome back" : "Create Account";
+  if ($("auth-sub")) $("auth-sub").textContent = isLogin
+    ? "Log in to sync your progress, streak, and mistake bank"
+    : "Join Tinguin to save your roasts, vocabulary, and stats";
+  if ($("btn-auth-submit")) $("btn-auth-submit").textContent = isLogin ? "Log In" : "Sign Up";
+  if ($("field-auth-name")) $("field-auth-name").style.display = isLogin ? "none" : "flex";
+  if ($("auth-error")) $("auth-error").textContent = "";
+}
+
+function openAuthModal(mode = "login") {
+  setAuthMode(mode);
+  if ($("auth-input-user")) $("auth-input-user").value = "";
+  if ($("auth-input-pass")) $("auth-input-pass").value = "";
+  if ($("auth-input-name")) $("auth-input-name").value = "";
+  if ($("auth-error")) $("auth-error").textContent = "";
+  const modal = $("modal-auth");
+  if (modal) modal.classList.remove("hide");
+}
+
+function closeAuthModal() {
+  const modal = $("modal-auth");
+  if (modal) modal.classList.add("hide");
+}
+
+function renderUserNav() {
+  const wrap = $("nav-user-wrap");
+  if (!wrap) return;
+  if (state.user) {
+    wrap.innerHTML = `
+      <div class="user-pill">
+        <span class="user-name">👤 ${escapeHtml(state.user.name || state.user.username)}</span>
+        <button class="btn-logout" id="btn-logout" title="Log out">Log Out</button>
+      </div>
+    `;
+    const btnLogout = $("btn-logout");
+    if (btnLogout) btnLogout.onclick = handleLogout;
+  } else {
+    wrap.innerHTML = `
+      <div class="nav-auth-btns">
+        <button type="button" class="btn-login-nav" id="btn-login-nav">Log In</button>
+        <button type="button" class="btn-signup-nav" id="btn-signup-nav">Sign Up</button>
+      </div>
+    `;
+    const btnLogin = $("btn-login-nav");
+    if (btnLogin) btnLogin.onclick = () => openAuthModal("login");
+    const btnSignup = $("btn-signup-nav");
+    if (btnSignup) btnSignup.onclick = () => openAuthModal("register");
+  }
+}
+
+async function checkAuthStatus() {
+  if (!state.token) {
+    renderUserNav();
+    return;
+  }
+  try {
+    const res = await authFetch("/api/auth/me");
+    if (res.ok) {
+      const data = await res.json();
+      if (data.authenticated && data.user) {
+        state.user = data.user;
+      } else {
+        state.token = null;
+        state.user = null;
+        localStorage.removeItem("tinguin_token");
+      }
+    }
+  } catch (e) {
+    console.error("Auth status check failed:", e);
+  }
+  renderUserNav();
+}
+
+async function handleAuthSubmit(e) {
+  if (e) e.preventDefault();
+  const username = ($("auth-input-user")?.value || "").trim();
+  const password = $("auth-input-pass")?.value || "";
+  const name = ($("auth-input-name")?.value || "").trim();
+  const errorEl = $("auth-error");
+  if (errorEl) errorEl.textContent = "";
+
+  if (!username || username.length < 3) {
+    if (errorEl) errorEl.textContent = "Username must be at least 3 characters.";
+    return;
+  }
+  if (!password || password.length < 4) {
+    if (errorEl) errorEl.textContent = "Password must be at least 4 characters.";
+    return;
+  }
+
+  const endpoint = state.authMode === "login" ? "/api/auth/login" : "/api/auth/register";
+  const body = state.authMode === "login" ? { username, password } : { username, password, name };
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (errorEl) errorEl.textContent = data.error || "Authentication failed.";
+      return;
+    }
+
+    state.token = data.token;
+    state.user = data.user;
+    localStorage.setItem("tinguin_token", data.token);
+    closeAuthModal();
+    renderUserNav();
+    showToast(`Welcome, ${state.user.name || state.user.username}! 🎉`);
+
+    fetchProfile();
+    loadMistakes();
+    loadVocabulary();
+  } catch (err) {
+    if (errorEl) errorEl.textContent = "Connection error. Please try again.";
+  }
+}
+
+async function handleLogout() {
+  try {
+    await authFetch("/api/auth/logout", { method: "POST" });
+  } catch (e) {}
+  state.token = null;
+  state.user = null;
+  localStorage.removeItem("tinguin_token");
+  renderUserNav();
+  showToast("Logged out successfully");
+  fetchProfile();
+  loadMistakes();
+  loadVocabulary();
+}
+
 function currentLang() {
-  return LANGUAGES[state.langId] || LANGUAGES.zh;
+  return LANGUAGES[state.langId] || LANGUAGES.ja || LANGUAGES.zh;
 }
 
 // Helper: Toast notifications
@@ -645,23 +806,46 @@ function initVoices() {
 initVoices();
 
 function getLanguageVoice(langCode) {
-  const voices = state.voices.length ? state.voices : speechSynthesis.getVoices();
-  const primaryCode = langCode.split("-")[0].toLowerCase();
-  const preferred = voices.find(v => v.lang.toLowerCase() === langCode.toLowerCase());
-  if (preferred) return preferred;
+  const voices = state.voices.length ? state.voices : (window.speechSynthesis ? speechSynthesis.getVoices() : []);
+  if (!voices || !voices.length) return null;
+
+  const code = (langCode || "").toLowerCase();
+  const primaryCode = code.split("-")[0];
+
+  // 1. Natural / Neural voices priority (Google, Microsoft Online, Natural, Premium)
+  const premiumMatches = voices.filter(v => {
+    const l = v.lang.toLowerCase();
+    const isLang = l === code || l.startsWith(primaryCode);
+    const isNatural = /natural|neural|online|google|premium/i.test(v.name);
+    return isLang && isNatural;
+  });
+  if (premiumMatches.length > 0) return premiumMatches[0];
+
+  // 2. Exact language match (e.g. ja-JP, zh-CN)
+  const exact = voices.find(v => v.lang.toLowerCase() === code);
+  if (exact) return exact;
+
+  // 3. Fallback to primary language prefix
   return voices.find(v => v.lang.toLowerCase().startsWith(primaryCode)) || null;
 }
 
-function speakText(text, rate = 0.9, langCode = null) {
+function speakText(text, rate = 0.95, langCode = null) {
   return new Promise(resolve => {
     if (!window.speechSynthesis) return resolve();
     speechSynthesis.cancel();
 
-    window._currentUtterance = new SpeechSynthesisUtterance(text);
+    // Clean text for speech synthesis (strip emoji, markdown characters)
+    const cleanSpeech = (text || "").replace(/[（\(][^）\)]*[）\)]/g, "").replace(/[*_#`~]/g, "").trim();
+    if (!cleanSpeech) return resolve();
+
+    window._currentUtterance = new SpeechSynthesisUtterance(cleanSpeech);
     const u = window._currentUtterance;
     const targetCode = langCode || currentLang().code;
     u.lang = targetCode;
+    // Natural human speech speed
     u.rate = rate;
+    // Subtle realistic pitch inflection
+    u.pitch = 1.02;
 
     const voice = getLanguageVoice(targetCode);
     if (voice) u.voice = voice;
@@ -710,6 +894,7 @@ function startGreetingRotation() {
 
 // Chips Rendering
 function renderChips(container, items, getVal, setVal) {
+  if (!container) return;
   container.innerHTML = "";
   items.forEach((item, idx) => {
     const btn = document.createElement("button");
@@ -720,6 +905,21 @@ function renderChips(container, items, getVal, setVal) {
       setVal(idx);
       renderChips(container, items, getVal, setVal);
     };
+    container.appendChild(btn);
+  });
+}
+
+// Language Chips in Launcher Card
+function renderLanguageChips() {
+  const container = $("chips-lang");
+  if (!container) return;
+  container.innerHTML = "";
+  Object.values(LANGUAGES).forEach(l => {
+    const btn = document.createElement("button");
+    btn.className = `chip ${state.langId === l.id ? "active" : ""}`;
+    btn.textContent = `${l.flag} ${l.name.split(" ")[0]}`;
+    btn.setAttribute("aria-pressed", state.langId === l.id);
+    btn.onclick = () => selectLanguage(l.id);
     container.appendChild(btn);
   });
 }
@@ -751,6 +951,7 @@ async function selectLanguage(langId) {
 
   // Update UI Elements
   renderLanguageSelector();
+  renderLanguageChips();
   startGreetingRotation();
 
   $("hero-sub").textContent = lang.subhead;
@@ -764,7 +965,7 @@ async function selectLanguage(langId) {
   renderScenariosGrid();
 
   // Persist language to profile
-  fetch("/api/profile", {
+  authFetch("/api/profile", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ target_lang: lang.name })
@@ -773,7 +974,7 @@ async function selectLanguage(langId) {
   showToast(`Switched to ${lang.name}! Ready to speak with ${lang.tutor}.`);
 }
 
-// Render Scenario Cards Dynamically
+// Render Scenario Cards Dynamically (Pingo Image 2 style)
 function renderScenariosGrid() {
   const container = $("scenarios-grid");
   if (!container) return;
@@ -844,7 +1045,7 @@ function setTab(tab) {
 // Profile API
 async function fetchProfile() {
   try {
-    const res = await fetch("/api/profile");
+    const res = await authFetch("/api/profile");
     if (!res.ok) return;
     const data = await res.json();
     $("streak-days").textContent = `${data.streak_days || 1} day streak 🔥`;
@@ -867,7 +1068,7 @@ async function loadMistakes(filter = "all", langFilter = "All") {
     if (filter !== "all") params.append("filter", filter);
     if (langFilter !== "All") params.append("lang", langFilter);
 
-    const res = await fetch(`/api/mistakes?${params.toString()}`);
+    const res = await authFetch(`/api/mistakes?${params.toString()}`);
     const items = await res.json();
     if (!items.length) {
       container.innerHTML = `
@@ -906,7 +1107,7 @@ async function loadMistakes(filter = "all", langFilter = "All") {
       };
 
       card.querySelector(".btn-toggle-reviewed").onclick = async () => {
-        await fetch("/api/mistakes/review", {
+        await authFetch("/api/mistakes/review", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: m.id })
@@ -932,7 +1133,7 @@ async function loadVocabulary(topic = "All", langFilter = "All") {
     if (topic !== "All") params.append("topic", topic);
     if (langFilter !== "All") params.append("lang", langFilter);
 
-    const res = await fetch(`/api/vocabulary?${params.toString()}`);
+    const res = await authFetch(`/api/vocabulary?${params.toString()}`);
     const items = await res.json();
     if (!items.length) {
       container.innerHTML = `
@@ -972,7 +1173,7 @@ async function loadVocabulary(topic = "All", langFilter = "All") {
       card.querySelector(".btn-play-norm").onclick = () => speakText(v.zh, 0.9, voiceCode);
       card.querySelector(".btn-play-slow").onclick = () => speakText(v.zh, 0.65, voiceCode);
       card.querySelector(".btn-master").onclick = async () => {
-        await fetch("/api/vocabulary/master", {
+        await authFetch("/api/vocabulary/master", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: v.id })
@@ -1002,7 +1203,7 @@ async function loadProgress() {
   const list = $("sessions-history-list");
   list.innerHTML = `<p style="color:var(--mute);text-align:center;padding:24px;">Loading conversation history...</p>`;
   try {
-    const res = await fetch("/api/sessions");
+    const res = await authFetch("/api/sessions");
     const sessions = await res.json();
     if (!sessions.length) {
       list.innerHTML = `<p style="color:var(--mute);text-align:center;padding:24px;">No call history yet. Start your first call!</p>`;
@@ -1013,14 +1214,20 @@ async function loadProgress() {
     sessions.forEach(s => {
       const item = document.createElement("div");
       item.className = "session-item";
+      item.style.cursor = "pointer";
+      item.title = "Click to replay conversation transcript";
       const mins = Math.ceil((s.duration_seconds || 0) / 60);
       item.innerHTML = `
-        <div>
+        <div style="flex:1;">
           <div class="session-topic">${escapeHtml(s.language || 'Language')} · ${escapeHtml(s.topic || "General")} <span style="font-size:12px;font-weight:normal;color:var(--mute);">(${s.level || "Beginner"})</span></div>
           <div class="session-details">${new Date(s.started_at).toLocaleDateString()} · ${mins} min${mins === 1 ? '' : 's'} · ${s.turns_count || 0} turns</div>
         </div>
-        <div class="session-score">Score: ${s.score || 8}/10</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="session-score">Score: ${s.score || 8}/10</div>
+          <button class="btn-sm" style="border:1px solid var(--line);background:var(--soft);">View Transcript 💬</button>
+        </div>
       `;
+      item.onclick = () => openSessionReplay(s);
       list.appendChild(item);
     });
   } catch (e) {
@@ -1028,39 +1235,100 @@ async function loadProgress() {
   }
 }
 
+function openSessionReplay(session) {
+  const modal = $("modal-session-replay");
+  if (!modal) return;
+  const title = $("replay-title");
+  const sub = $("replay-subtitle");
+  const log = $("replay-messages-log");
+
+  if (title) title.textContent = `${session.language || 'Conversation'} · ${session.topic || 'General'}`;
+  if (sub) {
+    const mins = Math.ceil((session.duration_seconds || 0) / 60);
+    sub.textContent = `${new Date(session.started_at).toLocaleString()} · ${mins} mins · Score: ${session.score || 8}/10`;
+  }
+  if (log) {
+    log.innerHTML = "";
+    const msgs = session.messages || [];
+    if (!msgs.length) {
+      log.innerHTML = `<p style="color:var(--mute);text-align:center;padding:24px;">No messages recorded in this call.</p>`;
+    } else {
+      msgs.forEach(m => {
+        const bubble = document.createElement("div");
+        bubble.className = `m ${m.role === 'user' ? 'me' : 'ai'}`;
+        if (m.role === 'user') {
+          bubble.innerHTML = `<div class="zh">${escapeHtml(m.zh)}</div>`;
+        } else {
+          bubble.innerHTML = `
+            <div class="zh">${escapeHtml(m.zh)}</div>
+            ${m.pinyin ? `<div class="py">${escapeHtml(m.pinyin)}</div>` : ""}
+            <div class="en">${escapeHtml(m.en)}</div>
+            ${m.fix ? `<div class="fix" style="margin-top:6px;font-size:13px;color:var(--brown);"><strong>Roast / Correction:</strong> ${escapeHtml(m.fix)}</div>` : ""}
+            <div class="m-actions">
+              <button class="btn-bubble btn-replay-listen">🔊 Listen</button>
+            </div>
+          `;
+          const btn = bubble.querySelector(".btn-replay-listen");
+          if (btn) {
+            btn.onclick = () => {
+              const match = Object.values(LANGUAGES).find(l => l.name === session.language);
+              speakText(m.zh, 0.9, match ? match.code : null);
+            };
+          }
+        }
+        log.appendChild(bubble);
+      });
+      log.scrollTop = 0;
+    }
+  }
+
+  modal.classList.remove("hide");
+}
+
+function closeSessionReplay() {
+  const modal = $("modal-session-replay");
+  if (modal) modal.classList.add("hide");
+}
+
 // Build Prompt for active language tutor
 function buildSystemPrompt() {
   const lang = currentLang();
   const currentLevel = LEVELS[state.level];
   const currentTopic = lang.topics[state.topic] || lang.topics[0];
+  const isOpening = state.hist.length === 0;
 
-  return `You are ${lang.tutor}, a tutor on a live audio phone call teaching ${lang.name} to an English speaker.
+  return `You are ${lang.tutor}, an AI tutor on a live audio phone call teaching ${lang.name} to an English speaker.
 Learner Level: ${currentLevel}.
-Call Topic: ${currentTopic}.
+Call Scenario / Topic: ${currentTopic}.
 
-Tutor Personality & Style:
+${isOpening ? `CALL INITIATION / TURN 0 (PHONE JUST CONNECTED):
+- The learner has NOT spoken yet. They just dialed in and picked up the call.
+- Pick up the phone with character in ${lang.name} as ${lang.tutor}, greet the caller, set the context for the topic "${currentTopic}", and ask them an open question to kick off the dialogue.
+- STRICT RULE: DO NOT roast, DO NOT mock, and DO NOT claim the user made any mistake because they haven't spoken yet!
+- CRITICAL: "fix" MUST be empty string ("") on this opening turn.` : `TUTOR PERSONALITY & ATTITUDE (CRITICAL — BE MEAN, WITTY, CREATIVE & SAVAGE):
 - ${lang.personality}
-- Roast the effort playfully when the learner errs, then provide the exact fix. Never roast the person.
-- Praise only when genuinely earned.
+- NEVER be repetitive, boring, polite, or formulaic. Do NOT follow a mechanical 5-step checklist.
+- WHEN THE LEARNER MAKES ANY MISTAKE (wrong grammar, broken vocabulary, ruined pronunciation/tones, wrong particles, bizarre literal translations, hesitation, or nonsense):
+  1) LAUGH AT THEM openly: write out real laughter (e.g. "Haha!", "草 (LOL) ちょww", "哈哈哈哈！", "Jajaja ¡por favor!", "Pfft—hahaha!").
+  2) MAKE FUN OF THEM and roast them with sharp, creative, sarcastic humor! Mock how ridiculous their sentence sounded (e.g. ask if they learned that from a broken toaster, joke about what strange thing they actually said, roast their accent with hilarious analogies).
+  3) IN THE "fix" FIELD: Provide your savage roast + the exact, natural native sentence they should have used instead.
+  4) DEMAND THEY FIX IT: Demand they repeat the corrected phrase properly without messing up.
+- WHEN THE LEARNER DOES WELL:
+  * Give begrudging, sarcastic credit (e.g. "Tsk, fine. You didn't completely butcher that one. Don't let your ego explode.", "Huh, acceptable. Shockingly human.").
+  * Immediately hit them with a tougher question or witty comeback!`}
 
-Teaching Structure (follow strictly):
-- Teach 5 core target phrases for ${currentTopic} in ${lang.name}, one at a time.
-- For each target phrase:
-  1) Teach it clearly: in ${lang.name}, ${lang.phoneticLabel}, and English translation.
-  2) Prompt the learner to speak or use it.
-  3) Check and playfully correct their response in the "fix" field.
-  4) Challenge them to use it in a sentence.
-  5) Advance to the next phrase.
-- Keep the ${lang.name} sentence natural and accessible for a ${currentLevel} learner.
-- Always end with a direct question or prompt for the learner to reply.
+CONVERSATIONAL DYNAMICS:
+- Keep the call lively, dynamic, and realistic. React directly to what the user actually said.
+- Keep your target language sentence ("zh") natural, colloquial, and punchy.
+- Always end your reply with a question, challenge, or prompt that demands the learner speak back.
 
-Strict JSON Output Requirement:
+STRICT JSON OUTPUT REQUIREMENT:
 Reply ONLY with a valid JSON object matching:
 {
-  "zh": "your ${lang.name} response/sentence",
+  "zh": "your spoken reply in ${lang.name} script/characters (including your laughter and natural dialogue)",
   "pinyin": "${lang.phoneticLabel} / pronunciation guide for zh",
   "en": "natural English translation of zh",
-  "fix": "if the learner made a mistake: the corrected sentence plus your witty feedback note; if they did well: empty string"
+  "fix": "${isOpening ? "" : "IF THE LEARNER ERRED: laugh at them, mock their slip-up with savage wit, and provide the exact corrected sentence. IF THEY SPOKE FLAWLESSLY: leave empty string or a witty sarcastic nod."}"
 }`;
 }
 
@@ -1100,7 +1368,7 @@ function appendBubble(sender, data) {
 
     bubble.querySelector(".btn-listen").onclick = () => speakText(data.zh, 0.9, lang.code);
     bubble.querySelector(".btn-save-phrase").onclick = async () => {
-      await fetch("/api/vocabulary", {
+      await authFetch("/api/vocabulary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1126,23 +1394,25 @@ async function turn(userInputText = "") {
   stopListening();
 
   const lang = currentLang();
+  const trimmed = (userInputText || "").trim();
 
-  if (userInputText) {
-    appendBubble("me", userInputText);
-    state.hist.push({ role: "user", content: userInputText });
+  if (trimmed) {
+    appendBubble("me", trimmed);
+    state.hist.push({ role: "user", content: trimmed });
   }
 
   setCallStatus(`${lang.tutor} is thinking...`);
 
   try {
-    const res = await fetch("/api/chat", {
+    const res = await authFetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         system: buildSystemPrompt(),
         messages: state.hist.slice(-10),
         sessionId: state.sessionId,
-        userText: userInputText
+        userText: trimmed,
+        language: lang.name
       })
     });
 
@@ -1152,16 +1422,24 @@ async function turn(userInputText = "") {
     }
 
     const aiResponse = await res.json();
+
+    // Guard: Turn 0 / empty user input must NEVER have a roast/fix
+    if (!trimmed) {
+      aiResponse.fix = "";
+    }
+
     state.hist.push({
       role: "assistant",
       zh: aiResponse.zh,
       pinyin: aiResponse.pinyin,
       en: aiResponse.en,
-      fix: aiResponse.fix
+      fix: aiResponse.fix || ""
     });
 
     if (aiResponse.zh) state.sessionPhrases.push(aiResponse);
-    if (aiResponse.fix) state.sessionMistakes.push({ input: userInputText, fix: aiResponse.fix });
+    if (aiResponse.fix && trimmed) {
+      state.sessionMistakes.push({ input: trimmed, fix: aiResponse.fix });
+    }
 
     appendBubble("ai", aiResponse);
 
@@ -1170,14 +1448,14 @@ async function turn(userInputText = "") {
       await speakText(aiResponse.zh, 0.9, lang.code);
       state.lastTutorSpokenText = aiResponse.zh;
       state.lastTutorTimestamp = Date.now();
-      // Reverb guard: wait 700ms for room echo and speaker output to completely die down
-      await new Promise(r => setTimeout(r, 700));
+      // Reverb guard: wait 800ms for room echo and speaker output to completely die down
+      await new Promise(r => setTimeout(r, 800));
     }
 
     setCallStatus("Connected");
   } catch (err) {
     console.error("Turn error:", err);
-    if (userInputText && state.hist.length && state.hist[state.hist.length - 1].content === userInputText) {
+    if (trimmed && state.hist.length && state.hist[state.hist.length - 1].content === trimmed) {
       state.hist.pop();
     }
     setCallStatus("Ready to retry");
@@ -1190,7 +1468,7 @@ async function turn(userInputText = "") {
   } finally {
     state.busy = false;
     if (state.inCall && !state.muted) {
-      scheduleRestart(150);
+      scheduleRestart(200);
     }
   }
 }
@@ -1234,6 +1512,13 @@ function startListening() {
     if (state.inCall && !state.speaking && !state.busy) {
       setCallStatus(state.muted ? "Muted (Type below or click Orb to speak)" : "Ready to speak");
     }
+    return;
+  }
+
+  // Echo/reverb guard: wait if tutor just finished speaking
+  const elapsed = Date.now() - (state.lastTutorTimestamp || 0);
+  if (elapsed < 600) {
+    scheduleRestart(600 - elapsed);
     return;
   }
 
@@ -1282,6 +1567,13 @@ function startListening() {
           console.warn("[Audio Guard] Ignored tutor speaker echo:", textToSend);
           setCallStatus("Listening to you...");
           scheduleRestart(300);
+          return;
+        }
+
+        // Noise blip check (ignore single character or trivial ambient noise)
+        if (textToSend.length < 2 && !/[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/.test(textToSend)) {
+          console.warn("[Audio Guard] Ignored noise blip:", textToSend);
+          scheduleRestart(200);
           return;
         }
 
@@ -1373,7 +1665,7 @@ async function startCall(customTopic = null) {
   renderCallHelpers();
 
   // Register session in database with current language
-  await fetch("/api/session/start", {
+  await authFetch("/api/session/start", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -1405,7 +1697,7 @@ async function endCall() {
     ? `Impressive flow in ${lang.name}! Keep practicing.`
     : `Caught ${state.sessionMistakes.length} slip-up${state.sessionMistakes.length === 1 ? '' : 's'}. Review them in your Mistake Bank!`;
 
-  await fetch("/api/session/end", {
+  await authFetch("/api/session/end", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -1438,14 +1730,24 @@ function escapeHtml(str) {
 
 // Initialization
 document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("tingo-theme") || "light";
+  const savedTheme = localStorage.getItem("tinguin-theme") || localStorage.getItem("tingo-theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
   $("btn-theme-toggle").onclick = () => {
     const cur = document.documentElement.getAttribute("data-theme");
     const next = cur === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("tingo-theme", next);
+    localStorage.setItem("tinguin-theme", next);
   };
+
+  // Auth modal tab switching & form submission
+  const tabLogin = $("tab-login");
+  const tabReg = $("tab-register");
+  if (tabLogin) tabLogin.onclick = () => setAuthMode("login");
+  if (tabReg) tabReg.onclick = () => setAuthMode("register");
+  const btnAuthClose = $("btn-auth-close");
+  if (btnAuthClose) btnAuthClose.onclick = closeAuthModal;
+  const authForm = $("auth-form");
+  if (authForm) authForm.onsubmit = handleAuthSubmit;
 
   // Nav links
   document.querySelectorAll(".nav-link").forEach(btn => {
@@ -1459,7 +1761,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize Language Selector and Scenarios
   renderLanguageSelector();
-  selectLanguage("zh");
+  renderLanguageChips();
+  selectLanguage("ja");
 
   // Call View listeners
   $("btn-hangup").onclick = endCall;
@@ -1509,6 +1812,8 @@ document.addEventListener("DOMContentLoaded", () => {
     $("modal-summary").classList.add("hide");
     setTab("mistakes");
   };
+  const btnCloseReplay = $("btn-close-replay");
+  if (btnCloseReplay) btnCloseReplay.onclick = closeSessionReplay;
 
   // Mistake filter buttons
   document.querySelectorAll(".filter-mistake").forEach(btn => {
@@ -1530,5 +1835,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadVocabulary("All", e.target.value);
   };
 
+  // Check user session
+  checkAuthStatus();
   fetchProfile();
 });
